@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mardex Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root { --bg: #0a141c; --surface: #101f2b; --surface-2: #152a39; --line: #1e3547; --fg: #e8eff3; --muted: #8da3b2; --accent: #f0b64a; --accent-ink: #1a1203; --accent-text: #f0b64a; --up: #4ade9a; --down: #ff7a7a;
+--f-display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+--f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+--f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+color-scheme: dark; }
+@media (prefers-color-scheme: light) {
+:root:not([data-theme="dark"]) { --bg: #edf1f3; --surface: #ffffff; --surface-2: #f3f6f8; --line: #d5dee4; --fg: #0a141c; --muted: #526675; --accent: #e0a12f; --accent-ink: #1a1203; --accent-text: #8a5a00; --up: #0e7a4e; --down: #b83232; color-scheme: light; }
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 15px; line-height: 1.5; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 56px; margin: 0; }
+.wrap { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+button, input, select { font: inherit; color: inherit; }
+button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+header.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 22px; }
+.mebtn { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px 5px 5px; color: var(--fg); font-weight: 500; cursor: pointer; max-width: 55%; }
+.mebtn #me-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mebtn[aria-selected="true"] { border-color: var(--accent); }
+.mebtn .av { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #000; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex: none; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.msec { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.qsec { margin: 16px 0 2px; }
+.qfb { font-size: 14px; margin-top: 6px; }
+.qfb.good { color: #34c38f; }
+.qfb.nope { color: var(--muted); }
+.seen { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.rulesbox { margin-top: 28px; padding: 18px 18px 6px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.rulesbox h3 { margin-top: 0; }
+.subh { font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 10px 0 2px; }
+.qmedia { max-width: 100%; border-radius: 10px; margin: 6px 0 10px; display: block; background: #fff; }
+.kicker { font-family: var(--f-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(30px, 8vw, 44px); line-height: 1; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--accent-text); }
+nav.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--bg); z-index: 5; overflow-x: auto; }
+.tab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 12px 14px; color: var(--muted); font-weight: 500; cursor: pointer; margin-bottom: -1px; white-space: nowrap; }
+.tab[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+h2 { font-family: var(--f-display); font-weight: 600; font-size: 22px; letter-spacing: -.01em; margin: 0; }
+h3 { font-family: var(--f-display); font-weight: 600; font-size: 17px; margin: 0; }
+.panel { display: flex; flex-direction: column; gap: 18px; }
+.panel[hidden], [hidden] { display: none !important; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.stat { padding: 12px 12px 13px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.stat + .stat { border-left: 1px solid var(--line); }
+.stat .l { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+.stat .v { font-family: var(--f-mono); font-weight: 500; font-size: clamp(15px, 4.4vw, 20px); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.up { color: var(--up); } .down { color: var(--down); }
+.board { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.row { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.row.plain { grid-template-columns: minmax(0, 1fr); }
+.pos { font-family: var(--f-display); font-weight: 700; font-size: 26px; color: var(--muted); line-height: 1; font-variant-numeric: tabular-nums; }
+.row.lead .pos { color: var(--accent-text); }
+.who { min-width: 0; }
+.name { font-weight: 600; overflow-wrap: anywhere; }
+.name .nick { color: var(--accent-text); }
+.name .lock { font-family: var(--f-mono); font-size: 11px; color: var(--muted); font-weight: 500; margin-left: 6px; }
+.sub { font-size: 12.5px; color: var(--muted); font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.res { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.roi { font-family: var(--f-mono); font-weight: 500; font-size: 18px; font-variant-numeric: tabular-nums; }
+.net { font-family: var(--f-mono); font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--muted); }
+.btn { border: 1px solid var(--line); background: var(--surface-2); border-radius: 6px; padding: 7px 12px; cursor: pointer; font-weight: 500; font-size: 13.5px; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn:disabled { opacity: .55; cursor: default; }
+.empty { border: 1px dashed var(--line); border-radius: 6px; padding: 22px 18px; background: var(--surface); }
+.empty strong { display: block; font-family: var(--f-display); font-size: 18px; margin-bottom: 4px; }
+.empty p { margin: 0; color: var(--muted); }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+details.admin { border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+details.admin > summary { padding: 12px 14px; cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+details.admin > summary::-webkit-details-marker { display: none; }
+details.admin > summary::after { content: "+"; font-family: var(--f-mono); color: var(--muted); }
+details.admin[open] > summary::after { content: "–"; }
+.box { padding: 0 14px 16px; display: flex; flex-direction: column; gap: 14px; }
+.sec { display: flex; flex-direction: column; gap: 10px; padding-top: 14px; border-top: 1px solid var(--line); }
+.sec:first-child { border-top: 0; padding-top: 0; }
+form.add { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+form.add label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); min-width: 0; }
+form.add label.full { grid-column: 1 / -1; }
+.field, form.add input[type="text"], form.add input[type="number"], form.add input[type="date"], form.add select, form.add input[type="file"] { background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 9px 10px; width: 100%; min-width: 0; color: var(--fg); font-size: 16px; }
+form.add .check { flex-direction: row; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--fg); }
+form.add .check input { margin-top: 4px; accent-color: var(--accent); }
+form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.msg { font-size: 13px; color: var(--muted); }
+.mv { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 10px; align-items: center; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; }
+.mv .t { font-weight: 600; font-size: 14px; overflow-wrap: anywhere; }
+.mv .s { font-size: 12.5px; color: var(--muted); font-family: var(--f-mono); }
+.mv .acts { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.mv .acts .field { flex: 1 1 140px; width: auto; padding: 7px 10px; font-size: 15px; }
+.mv img { grid-column: 1 / -1; max-width: 100%; max-height: 220px; object-fit: contain; border-radius: 4px; border: 1px solid var(--line); background: var(--surface); cursor: zoom-in; }
+.mv img.big { max-height: none; cursor: zoom-out; }
+.mod { border-bottom: 1px solid var(--line); }
+.mod > summary { list-style: none; cursor: pointer; padding: 16px 0; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: baseline; }
+.mod > summary::-webkit-details-marker { display: none; }
+.mod .tag { font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-text); }
+.mod .t { font-family: var(--f-display); font-weight: 600; font-size: 19px; }
+.mod .chev { font-family: var(--f-mono); color: var(--muted); }
+.mod[open] .chev { transform: rotate(90deg); }
+.mod ul { list-style: none; margin: 0; padding: 0 0 16px; display: flex; flex-direction: column; gap: 8px; }
+.mod li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+.prize { border: 1px solid var(--accent); border-radius: 6px; padding: 18px; background: var(--surface); display: flex; flex-direction: column; gap: 6px; }
+.prize .kicker { color: var(--accent-text); }
+.prize .big { font-family: var(--f-display); font-weight: 700; font-size: 26px; line-height: 1.1; }
+.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: flex; flex-direction: column; gap: 10px; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.steps li::before { content: counter(s); font-family: var(--f-mono); color: var(--accent-text); }
+.rules { margin: 0; padding-left: 18px; color: var(--muted); display: flex; flex-direction: column; gap: 6px; }
+.qlist { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.qitem { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.qitem .t { font-weight: 600; overflow-wrap: anywhere; }
+.qitem .s { font-size: 12.5px; color: var(--muted); font-family: var(--f-mono); }
+.qrun { display: flex; flex-direction: column; gap: 16px; }
+.qq { border: 1px solid var(--line); border-radius: 6px; background: var(--surface); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.qq .qt { font-weight: 600; }
+.qopt { display: flex; gap: 10px; align-items: flex-start; padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; cursor: pointer; background: var(--bg); }
+.qopt input { margin-top: 4px; accent-color: var(--accent); }
+.qopt.ok { border-color: var(--up); }
+.qopt.bad { border-color: var(--down); }
+.qscore { font-family: var(--f-display); font-weight: 700; font-size: 30px; }
+@media (max-width: 420px) { form.add { grid-template-columns: 1fr; } }
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.plan-col{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.plan-h{font-weight:600;font-size:13px}
+.plan-i{font-size:13px;overflow-wrap:anywhere}
+@media(max-width:560px){.plans{grid-template-columns:1fr}}
+.auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.authbox{width:min(420px,100%);display:flex;flex-direction:column;gap:14px}
+.seg{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.authbox form{display:flex;flex-direction:column;gap:12px}
+.authbox label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
+.authbox input{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px;color:var(--fg);font-size:16px;width:100%}
+.logout{background:none;border:0;color:var(--muted);cursor:pointer;font-size:13px;text-decoration:underline;padding:0}
+</style></head><body>
+<div class="auth" id="auth" hidden>
+<div class="authbox">
+<h1>Mardex <em>Club</em></h1>
+<p class="note" id="auth-sub">Cargando…</p>
+<div class="seg" id="auth-seg" hidden>
+<button class="tab" type="button" id="a-in" aria-selected="true">Entrar</button>
+<button class="tab" type="button" id="a-up" aria-selected="false">Crear cuenta</button>
+</div>
+<form id="aform" autocomplete="on" hidden>
+<label id="l-nombre" hidden>Tu nombre<input id="a-nombre" type="text" maxlength="40" placeholder="Nombre y apellido" autocomplete="name"></label>
+<label id="l-email">Email<input id="a-email" type="email" required autocomplete="email"></label>
+<label id="l-pass">Contraseña (mínimo 8 caracteres)<input id="a-pass" type="password" minlength="8" required autocomplete="current-password"></label>
+<label id="l-code" hidden>Código del Club<input id="a-code" type="text" placeholder="El que te pasó Mardex" autocomplete="off"></label>
+<div class="actions"><button class="btn primary" type="submit" id="a-go">Entrar</button><span class="msg" id="a-msg" role="status"></span></div>
+</form>
+<button class="logout" id="a-out" type="button" hidden>Cerrar sesión</button>
+</div>
+</div>
+<div class="wrap" id="app" hidden>
+<header class="top">
+<h1>Mardex <em>Club</em></h1>
+<button class="mebtn" id="t-perfil" data-tab="perfil" aria-selected="false"><span class="av" id="me-av">M</span><span id="me-name">Mi perfil</span></button>
+</header>
+<nav class="tabs" role="tablist" aria-label="Secciones">
+<button class="tab" role="tab" id="t-empezar" data-tab="empezar" aria-selected="true">Empezá acá</button>
+<button class="tab" role="tab" id="t-material" data-tab="material" aria-selected="false">Material</button>
+<button class="tab" role="tab" id="t-quizzes" data-tab="quizzes" aria-selected="false">Quizzes</button>
+<button class="tab" role="tab" id="t-ranking" data-tab="ranking" aria-selected="false">Ranking</button>
+<button class="tab" role="tab" id="t-sorteo" data-tab="sorteo" aria-selected="false">Sorteos</button>
+</nav>
+<section class="panel" id="p-empezar" role="tabpanel">
+<h2>Bienvenido al Club</h2>
+<p class="note">Este es tu lugar dentro de la comunidad de Mardex: material, quizzes, ranking del grupo y sorteos. Y si recién arrancás en el trading, empezá por acá: todo es simple y desde cero.</p>
+<h3>Tus primeros pasos</h3>
+<ol class="steps">
+<li><span>Entrá a <b>Material</b> y mirá los videos y PDFs: cómo operar, explicado desde cero. Marcalos como vistos a medida que avances.</span></li>
+<li><span>Hacé los <b>Quizzes</b> básicos para ver si lo entendiste.</span></li>
+<li><span>Cargá tus compras y retiros en tu perfil para medir tus resultados.</span></li>
+</ol>
+<div class="actions"><button class="btn primary" type="button" data-go="perfil">Ir a mi perfil</button><button class="btn" type="button" data-go="material">Ir al material</button></div>
+<hr style="border:0;border-top:1px solid var(--fg);opacity:.35;margin:28px 0 0">
+<div class="rulesbox">
+<h3>Reglas del Club</h3>
+<ul class="rules">
+<li>El contenido es solo para miembros y no se comparte afuera.</li>
+<li>Los números y comprobantes tienen que ser reales.</li>
+<li>Si dejás de ser parte de la comunidad, perdés por completo el acceso a esta página.</li>
+</ul>
+</div>
+<div><button class="logout" id="out2" type="button">Cerrar sesión</button></div>
+</section>
+<section class="panel" id="p-ranking" role="tabpanel" hidden>
+<h2>Ranking</h2>
+<div class="stats">
+<div class="stat"><span class="l">Retirado</span><span class="v" id="s-ret">–</span></div>
+<div class="stat"><span class="l">ROI del grupo</span><span class="v" id="s-roi">–</span></div>
+<div class="stat"><span class="l">Cuentas</span><span class="v" id="s-cta">–</span></div>
+</div>
+<ol class="board" id="board"></ol>
+<div id="priv-wrap" hidden style="flex-direction:column;gap:8px">
+<h3>Perfiles privados</h3>
+<ol class="board" id="priv"></ol>
+</div>
+<div class="empty" id="empty" hidden>
+<strong>Todavía no hay resultados cargados</strong>
+<p>Entrá a “Mi perfil” y cargá tus compras y retiros con su comprobante.</p>
+</div>
+<details class="admin" id="review" hidden>
+<summary>Panel de Mardex: alumnos</summary>
+<div class="box">
+<p class="note">Apodos y planes los ves solo vos.</p>
+<h3>Planes</h3>
+<div id="r-plans" class="plans"></div>
+<div id="r-students" style="display:flex;flex-direction:column;gap:8px"></div>
+<div id="r-items" style="display:flex;flex-direction:column;gap:8px"></div>
+</div>
+</details>
+</section>
+<section class="panel" id="p-perfil" role="tabpanel" hidden>
+<h2>Mi perfil</h2>
+<div class="stats">
+<div class="stat"><span class="l">Invertido</span><span class="v" id="my-inv">–</span></div>
+<div class="stat"><span class="l">Retirado</span><span class="v" id="my-ret">–</span></div>
+<div class="stat"><span class="l">Mi ROI</span><span class="v" id="my-roi">–</span></div>
+</div>
+<div class="box" style="padding:0">
+<div class="sec">
+<h3>Datos del perfil</h3>
+<form class="add" id="pform" autocomplete="off">
+<label class="full" for="p-nombre">Nombre
+<input id="p-nombre" type="text" required maxlength="40" placeholder="Cómo querés que te vean">
+</label>
+<label class="full check" for="p-publico">
+<input id="p-publico" type="checkbox">
+<span>Perfil público: en el ranking aparece mi nombre, mis montos y mi ROI. Si lo dejás privado, aparece solo mi nombre.</span>
+</label>
+<div class="actions"><button class="btn primary" type="submit">Guardar perfil</button><span class="msg" id="p-msg" role="status"></span></div>
+</form>
+</div>
+<div class="sec">
+<h3>Agregar movimiento</h3>
+<form class="add" id="mform" autocomplete="off">
+<label for="m-tipo">Tipo
+<select id="m-tipo"><option value="inv">Compra de cuenta</option><option value="ret">Retiro</option></select>
+</label>
+<label for="m-monto">Monto (USD)
+<input id="m-monto" type="number" inputmode="decimal" min="0.01" step="any" required>
+</label>
+<label for="m-detalle">Detalle (firma o cuenta)
+<input id="m-detalle" type="text" maxlength="80" placeholder="Ej. Alpha Futures 50K">
+</label>
+<label for="m-fecha">Fecha
+<input id="m-fecha" type="date" required>
+</label>
+<label class="full" for="m-file"><span id="m-file-l">Captura de la compra</span>
+<input id="m-file" type="file" accept="image/*" required>
+</label>
+<div class="actions"><button class="btn primary" type="submit" id="m-save">Subir movimiento</button><span class="msg" id="m-msg" role="status"></span></div>
+</form>
+</div>
+<div class="sec">
+<h3>Mis movimientos</h3>
+<div id="m-list" style="display:flex;flex-direction:column;gap:8px"></div>
+</div>
+</div>
+</section>
+<section class="panel" id="p-material" role="tabpanel" hidden>
+<h2>Material</h2>
+<details class="admin" id="mat-admin" hidden>
+<summary>Agregar material</summary>
+<div class="box">
+<form class="add" id="matform" autocomplete="off">
+<label class="full" for="mat-titulo">Título
+<input id="mat-titulo" type="text" required maxlength="100" placeholder="Ej. Qué es el modelo IFVG">
+</label>
+<label class="full" for="mat-tipo">Tipo
+<select id="mat-tipo">
+<option value="video">Video (link de YouTube, Vimeo, etc.)</option>
+<option value="enlace">Otro enlace</option>
+<option value="pdf">PDF (se sube acá)</option>
+</select>
+</label>
+<label class="full" for="mat-url" id="mat-url-l">Link
+<input id="mat-url" type="text" inputmode="url" placeholder="https://...">
+</label>
+<label class="full" for="mat-file" id="mat-file-l" hidden>Archivo PDF
+<input id="mat-file" type="file" accept="application/pdf">
+</label>
+<div class="actions"><button class="btn primary" type="submit" id="mat-save">Agregar</button><span class="msg" id="mat-msg" role="status"></span></div>
+</form>
+</div>
+</details>
+<div id="mods"></div>
+</section>
+<section class="panel" id="p-quizzes" role="tabpanel" hidden>
+<h2>Quizzes</h2>
+<p class="note">Un quiz es un mini test de preguntas con opciones. Elegís una respuesta y al instante te dice si acertaste. Sirve para repasar lo que viste en los videos y PDFs, sin nota y sin apuro: podés repetirlos las veces que quieras.</p>
+<div id="quiz-list" class="qlist"></div>
+<div id="quiz-run" class="qrun" hidden></div>
+</section>
+<section class="panel" id="p-sorteo" role="tabpanel" hidden>
+<h2>Sorteos</h2>
+<h3>Sorteo mensual</h3>
+<p class="note">Todos los meses van a ir cambiando los premios.</p>
+<div class="prize">
+<span class="kicker">Premio del mes</span>
+<span class="big" id="prize-t">Lo anuncia Mardex al inicio de cada mes</span>
+</div>
+<form class="add" id="prize-form" hidden autocomplete="off">
+<label class="full" for="prize-in">Premio del mes (solo lo ves vos)
+<input id="prize-in" type="text" maxlength="120" placeholder="Ej. Un mes de TradingView">
+</label>
+<div class="actions"><button class="btn primary" type="submit">Guardar premio</button><span class="msg" id="prize-msg" role="status"></span></div>
+</form>
+<h3>Cómo participás</h3>
+<p class="note">Siendo miembro activo de esta comunidad ya estás participando. El sorteo es una vez por mes y totalmente al azar. Los ganadores se anuncian por este mismo canal.</p>
+<details class="admin" id="draw" hidden>
+<summary>Panel de Mardex: sortear</summary>
+<div class="box">
+<p class="note">Elige al azar entre todos los miembros activos con perfil. Esto lo ves solo vos.</p>
+<div class="actions"><button class="btn primary" type="button" id="draw-go">Sortear ahora</button><span class="msg" id="draw-out" role="status"></span></div>
+</div>
+</details>
+</section>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="app.js"></script>
+</body></html>
