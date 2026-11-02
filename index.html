@@ -205,6 +205,21 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <summary>Panel de Mardex: alumnos</summary>
 <div class="box">
 <p class="note">Apodos y planes los ves solo vos.</p>
+<div class="sec">
+<h3>Código del Club</h3>
+<form class="add" id="code-form" autocomplete="off">
+<label class="full" for="code-in">Código para que entren alumnos nuevos (lo ves solo vos)
+<input id="code-in" type="text" maxlength="40">
+</label>
+<div class="actions"><button class="btn primary" type="submit">Guardar código</button><span class="msg" id="code-msg" role="status"></span></div>
+</form>
+<p class="note">Si se filtra, cambialo acá. Los alumnos que ya están adentro siguen entrando igual y no pierden nada. El código nuevo solo lo piden los que se registren desde ahora.</p>
+</div>
+<div class="sec">
+<h3>Copia de seguridad</h3>
+<p class="note">Descarga un archivo con todos los datos del Club (alumnos, movimientos, quizzes, material, planes). Guardalo en un lugar seguro, por ejemplo cada mes.</p>
+<div class="actions"><button class="btn" type="button" id="bk-go">Descargar copia</button><span class="msg" id="bk-msg" role="status"></span></div>
+</div>
 <h3>Planes</h3>
 <div id="r-plans" class="plans"></div>
 <div id="r-students" style="display:flex;flex-direction:column;gap:8px"></div>
