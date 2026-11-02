@@ -34,6 +34,16 @@ section.contact h2{font-family:var(--f-display);font-size:24px;margin:0}
 .soc a:hover{border-color:var(--accent)}
 .soc svg{width:18px;height:18px;fill:currentColor}
 footer{color:var(--muted);font-size:12px}
+.soon{cursor:default}
+.soon:hover{border-color:var(--line);transform:none}
+.soon{position:relative}
+.soon svg,.soon .body{filter:grayscale(1);opacity:.45}
+.soon-tag{position:absolute;top:12px;left:12px;z-index:1;font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;background:#2a3b49;color:#e8eff3;padding:4px 10px;border-radius:99px}
+.club{background:#0f3a5f;border-color:#1d5688;align-items:center;justify-content:center;text-align:center;min-height:260px;padding:24px;gap:14px}
+.club:hover{border-color:var(--accent)}
+.mark{font-family:var(--f-display);font-weight:700;font-size:clamp(44px,9vw,58px);line-height:.98;letter-spacing:-.01em;display:flex;flex-direction:column;color:#fff}
+.mark em{font-style:normal;color:#f0b64a}
+.enter{font-weight:600;font-size:14px;color:#cfe3f5}
 [hidden]{display:none!important}
 </style></head><body>
 <div class="wrap">
@@ -43,7 +53,7 @@ footer{color:var(--muted);font-size:12px}
 </header>
 
 <main class="cards">
-  <a class="card" href="#contacto" aria-label="Mentorías">
+  <div class="card soon" aria-label="Mentorías, próximamente"><span class="soon-tag">Próximamente</span>
     <svg viewBox="0 0 320 180" role="img" aria-label="Ilustración de una videollamada de mentoría con un gráfico">
       <rect x="22" y="20" width="276" height="140" rx="10" fill="none" stroke="var(--line)" stroke-width="2"/>
       <rect x="22" y="20" width="276" height="22" rx="10" fill="var(--line)"/>
@@ -54,10 +64,10 @@ footer{color:var(--muted);font-size:12px}
       <circle cx="262" cy="136" r="13" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
       <circle cx="262" cy="132" r="4" fill="var(--accent)"/><path d="M254 144a8 7 0 0 1 16 0" fill="var(--accent)"/>
     </svg>
-    <div class="body"><h2>Mentorías</h2><p>Clases 1 a 1 para aprender el modelo paso a paso, con seguimiento y feedback sobre tus operaciones.</p><span class="go">Consultar →</span></div>
-  </a>
+    <div class="body"><h2>Mentorías</h2><p>Clases 1 a 1 para aprender el modelo paso a paso, con seguimiento y feedback sobre tus operaciones.</p></div>
+  </div>
 
-  <a class="card" href="#contacto" aria-label="Live trading">
+  <div class="card soon" aria-label="Live trading, próximamente"><span class="soon-tag">Próximamente</span>
     <svg viewBox="0 0 320 180" role="img" aria-label="Ilustración de velas de un gráfico en vivo">
       <g stroke-width="2.5" stroke-linecap="round">
         <line x1="40" y1="70" x2="40" y2="130" stroke="var(--down)"/><rect x="33" y="84" width="14" height="30" rx="2" fill="var(--down)"/>
@@ -73,20 +83,12 @@ footer{color:var(--muted);font-size:12px}
       <rect x="20" y="14" width="86" height="22" rx="11" fill="var(--down)"/><circle cx="34" cy="25" r="4" fill="#fff"/>
       <text x="44" y="29" font-family="IBM Plex Mono,monospace" font-size="11" font-weight="600" fill="#fff">EN VIVO</text>
     </svg>
-    <div class="body"><h2>Live trading</h2><p>Mirá cómo opero la apertura de Nueva York y Asia en directo, con las decisiones explicadas en tiempo real.</p><span class="go">Consultar →</span></div>
-  </a>
+    <div class="body"><h2>Live trading</h2><p>Mirá cómo opero la apertura de Nueva York y Asia en directo, con las decisiones explicadas en tiempo real.</p></div>
+  </div>
 
-  <a class="card" href="club/" aria-label="Mardex Club">
-    <svg viewBox="0 0 320 180" role="img" aria-label="Ilustración de un ranking con podio">
-      <rect x="40" y="108" width="68" height="52" rx="4" fill="var(--line)"/>
-      <rect x="126" y="76" width="68" height="84" rx="4" fill="var(--accent)"/>
-      <rect x="212" y="124" width="68" height="36" rx="4" fill="var(--line)"/>
-      <text x="74" y="140" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-size="26" font-weight="700" fill="var(--fg)">2</text>
-      <text x="160" y="120" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-size="34" font-weight="700" fill="#1a1203">1</text>
-      <text x="246" y="150" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-size="22" font-weight="700" fill="var(--fg)">3</text>
-      <path d="M160 24l7 14 15 2-11 11 3 15-14-8-14 8 3-15-11-11 15-2z" fill="var(--accent)"/>
-    </svg>
-    <div class="body"><span class="tag">Para alumnos</span><h2>Mardex Club</h2><p>Ranking de ROI, material, quizzes y sorteos mensuales. Entrás con tu cuenta.</p><span class="go">Entrar al Club →</span></div>
+  <a class="card club" href="club/" aria-label="Mardex Club, entrar">
+    <span class="mark"><span>Mardex</span><em>Club</em></span>
+    <span class="enter">Entrar →</span>
   </a>
 </main>
 
@@ -101,10 +103,10 @@ footer{color:var(--muted);font-size:12px}
 <script>
 /* Para agregar o cambiar una red, editá solo esta lista. Las que tengan url vacía no se muestran. */
 var REDES = [
-  { n: "YouTube",   u: "", i: "M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2C.5 9.1.5 12 .5 12s0 2.9.5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-4.8.5-4.8s0-2.9-.5-4.8zM9.8 15.4V8.6l5.9 3.4z" },
-  { n: "Instagram", u: "", i: "M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 4 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z" },
-  { n: "TikTok",    u: "", i: "M16.6 2h-3.2v13.4a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9.3a6.2 6.2 0 1 0 5.2 6.1V8.7a8 8 0 0 0 4.6 1.5V7a4.8 4.8 0 0 1-4.6-5z" },
-  { n: "Kick",      u: "", i: "M3 2h5v6h2l4-6h6l-5.500 8L20 18h-6l-4-6H8v6H3z" }
+  { n: "YouTube",   u: "https://www.youtube.com/@MardexTrading", i: "M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2C.5 9.1.5 12 .5 12s0 2.9.5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-4.8.5-4.8s0-2.9-.5-4.8zM9.8 15.4V8.6l5.9 3.4z" },
+  { n: "Instagram", u: "https://www.instagram.com/mardex_trading/", i: "M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 4 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z" },
+  { n: "TikTok",    u: "https://www.tiktok.com/@mardex_trading", i: "M16.6 2h-3.2v13.4a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9.3a6.2 6.2 0 1 0 5.2 6.1V8.7a8 8 0 0 0 4.6 1.5V7a4.8 4.8 0 0 1-4.6-5z" },
+  { n: "Kick",      u: "https://kick.com/mardextrading", i: "M3 2h5v6h2l4-6h6l-5.500 8L20 18h-6l-4-6H8v6H3z" }
 ];
 (function () {
   var ul = document.getElementById("soc"), any = false;
