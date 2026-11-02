@@ -209,6 +209,7 @@
   /* ---------- ADMIN ---------- */
   var reviewUid = null;
   function renderAdmin() {
+    loadCode();
     var box = $("r-students"); box.textContent = "";
     S.perfiles.forEach(function (p) {
       var n = S.notas[p.id] || {};
@@ -357,5 +358,22 @@
     sb.rpc("sortear").then(function (r) { $("draw-out").textContent = r.error ? "No se pudo sortear." : "Ganador: " + r.data; });
   });
 
+  function loadCode() { sb.from("club_codigo").select("codigo").maybeSingle().then(function (r) { if (r.data && document.activeElement !== $("code-in")) $("code-in").value = r.data.codigo; }); }
+  $("code-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var c = $("code-in").value.trim(), m = $("code-msg");
+    if (c.length < 6) { m.textContent = "Mínimo 6 caracteres."; return; }
+    m.textContent = "Guardando…";
+    sb.from("club_codigo").upsert({ id: 1, codigo: c }).then(function (r) { m.textContent = r.error ? "No se pudo guardar." : "Código guardado."; });
+  });
+  $("bk-go").addEventListener("click", function () {
+    var m = $("bk-msg"), tabs = ["admin_notas", "profiles", "movimientos", "material", "quizzes", "progreso", "config", "club_codigo"], out = { generado: new Date().toISOString(), nota: "Copia de Mardex Club. Los archivos (fotos y PDFs) se guardan aparte en Supabase Storage." };
+    m.textContent = "Preparando…";
+    Promise.all(tabs.map(function (t) { return sb.from(t).select("*").then(function (r) { if (r.error) throw r.error; out[t] = r.data; }); })).then(function () {
+      var bl = new Blob([JSON.stringify(out, null, 2)], { type: "application/json" }), u = URL.createObjectURL(bl), l = document.createElement("a");
+      l.href = u; l.download = "mardex-club-copia-" + new Date().toISOString().slice(0, 10) + ".json"; document.body.appendChild(l); l.click(); l.remove(); URL.revokeObjectURL(u);
+      m.textContent = "Copia descargada.";
+    }).catch(function () { m.textContent = "No se pudo crear la copia."; });
+  });
   boot();
 })();
