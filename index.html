@@ -18,7 +18,9 @@ h1{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,7vw,56px);l
 h1 em{font-style:normal;color:var(--accent)}
 .lede{color:var(--muted);margin:0;max-width:52ch}
 .cards{display:grid;gap:16px;grid-template-columns:1fr}
-@media(min-width:760px){.cards{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:760px){.cards{grid-template-columns:repeat(2,1fr)}}
+.sec-t{font-family:var(--f-display);font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:0 0 -18px}
+.only{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#cfe3f5;border:1px solid #2c6aa3;padding:4px 12px;border-radius:99px}
 .card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;text-decoration:none;transition:border-color .15s,transform .15s}
 .card:hover{border-color:var(--accent);transform:translateY(-2px)}
 .card svg{display:block;width:100%;height:auto;background:var(--surface-2);border-bottom:1px solid var(--line)}
@@ -39,9 +41,9 @@ footer{color:var(--muted);font-size:12px}
 .soon{position:relative}
 .soon svg,.soon .body{filter:grayscale(1);opacity:.45}
 .soon-tag{position:absolute;top:12px;right:12px;z-index:1;font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;background:#2a3b49;color:#e8eff3;padding:4px 10px;border-radius:99px}
-.club{background:#0f3a5f;border-color:#1d5688;align-items:center;justify-content:center;text-align:center;min-height:260px;padding:24px;gap:14px}
+.club{background:#0f3a5f;border-color:#1d5688;align-items:center;justify-content:center;text-align:center;min-height:150px;padding:28px 24px;gap:14px}
 .club:hover{border-color:var(--accent)}
-.mark{font-family:var(--f-display);font-weight:700;font-size:clamp(44px,9vw,58px);line-height:.98;letter-spacing:-.01em;display:flex;flex-direction:column;color:#fff}
+.mark{font-family:var(--f-display);font-weight:700;font-size:clamp(40px,9vw,56px);line-height:1;letter-spacing:-.01em;color:#fff}
 .mark em{font-style:normal;color:#f0b64a}
 .enter{font-weight:600;font-size:14px;color:#cfe3f5}
 [hidden]{display:none!important}
@@ -49,9 +51,10 @@ footer{color:var(--muted);font-size:12px}
 <div class="wrap">
 <header>
   <h1>Mardex <em>Trading</em></h1>
-  <p class="lede">Aprendé a operar futuros NQ con alguien que lo hace todos los días: mentorías, live trading y una comunidad para medir tu progreso.</p>
+  <p class="lede">Aprendé a operar futuros NQ conmigo. Te enseño trading, no te prometo resultados.</p>
 </header>
 
+<h2 class="sec-t">Servicios</h2>
 <main class="cards">
   <div class="card soon" aria-label="Mentorías, próximamente"><span class="soon-tag">Próximamente</span>
     <svg viewBox="0 0 320 180" role="img" aria-label="Ilustración de una videollamada de mentoría con un gráfico">
@@ -86,10 +89,13 @@ footer{color:var(--muted);font-size:12px}
     <div class="body"><h2>Live trading</h2><p>Mirá cómo opero la apertura de Nueva York y Asia en directo, con las decisiones explicadas en tiempo real.</p></div>
   </div>
 
-  <a class="card club" href="club/" aria-label="Mardex Club, entrar">
-    <span class="mark"><span>Mardex</span><em>Club</em></span>
-  </a>
+  
 </main>
+
+<a class="card club" href="club/" aria-label="Mardex Club, solo para alumnos">
+    <span class="mark"><span>Mardex</span> <em>Club</em></span>
+    <span class="only">Solo para alumnos</span>
+  </a>
 
 <section class="contact" id="contacto" hidden>
   <h2>Contacto y redes</h2>
