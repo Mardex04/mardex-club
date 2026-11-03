@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Live trading · Lista de espera · Mardex Trading</title>
+<meta name="description" content="Anotate en la lista de espera del live trading de Mardex: Nueva York y Asia en vivo.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{--bg:#0a141c;--surface:#101f2b;--surface-2:#152a39;--line:#1e3547;--fg:#e8eff3;--muted:#8da3b2;--accent:#f0b64a;--accent-ink:#1a1203;--up:#4ade9a;--down:#ff7a7a;
+--f-display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;--f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:dark}
+@media (prefers-color-scheme:light){:root{--bg:#edf1f3;--surface:#fff;--surface-2:#f3f6f8;--line:#d5dee4;--fg:#0a141c;--muted:#526675;--accent:#e0a12f;--up:#0e7a4e;--down:#b83232;color-scheme:light}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.5;padding:20px max(16px,env(safe-area-inset-right,0px)) 56px max(16px,env(safe-area-inset-left,0px))}
+a{color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.back{font-size:14px;color:var(--muted);text-decoration:none;align-self:flex-start;padding:8px 0}
+.back:hover{color:var(--fg)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(30px,6vw,44px);line-height:1.05;margin:0}
+h1 em{font-style:normal;color:var(--accent)}
+h2{font-family:var(--f-display);font-size:20px;margin:0}
+.lede{color:var(--muted);margin:0}
+form{display:flex;flex-direction:column;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+label .req{color:var(--accent)}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:11px 12px;color:var(--fg);font:inherit;font-size:16px;width:100%}
+textarea{min-height:80px;resize:vertical}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+legend{font-size:13px;color:var(--muted);padding:0;margin-bottom:6px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{flex-direction:row;align-items:center;gap:8px;color:var(--fg);font-size:15px;border:1px solid var(--line);border-radius:99px;padding:9px 16px;cursor:pointer;background:var(--bg)}
+.opts input{width:auto;accent-color:var(--accent)}
+.opts label:has(input:checked){border-color:var(--accent)}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:13px 20px;font:inherit;font-weight:600;cursor:pointer;min-height:46px}
+.btn.sec{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.btn:disabled{opacity:.6;cursor:default}
+.msg{font-size:14px}
+.msg.ok{color:var(--up)}.msg.err{color:var(--down)}
+.hp{position:absolute;left:-9999px;height:0;overflow:hidden}
+.note{font-size:13px;color:var(--muted);margin:0}
+.done{background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:8px}
+.admin{border-top:1px solid var(--line);padding-top:24px;display:flex;flex-direction:column;gap:14px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.bar select{width:auto}
+.cnt{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.row{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.row .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.row b{font-family:var(--f-display);font-size:17px}
+.row .meta{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.row a{color:var(--accent)}
+.row select{width:auto;padding:7px 10px;font-size:14px}
+[hidden]{display:none!important}
+</style></head><body>
+<div class="wrap">
+  <a class="back" href="../">← Mardex Trading</a>
+  <div>
+    <h1>Live trading <em>2027</em></h1>
+    <p class="lede" style="margin-top:10px">Opero NQ en vivo en la apertura de Nueva York y en la de Asia. Dejá tus datos y te escribo cuando se abran los lugares.</p>
+  </div>
+
+  <form id="f" autocomplete="on" novalidate>
+    <label>Nombre <span class="req">*</span><input id="nombre" type="text" maxlength="80" autocomplete="name" required></label>
+    <label>WhatsApp <span class="req">*</span><input id="wa" type="tel" maxlength="30" inputmode="tel" autocomplete="tel" placeholder="+598 9X XXX XXX" required><span class="note">Con código de país. Por acá te aviso.</span></label>
+    <label>Mail (opcional)<input id="mail" type="email" maxlength="120" autocomplete="email"></label>
+    <label>Instagram (opcional)<input id="ig" type="text" maxlength="60" placeholder="@usuario"></label>
+    <fieldset>
+      <legend>¿Qué sesión te interesa? <span class="req">*</span></legend>
+      <div class="opts">
+        <label><input type="radio" name="ses" value="ny"> Nueva York</label>
+        <label><input type="radio" name="ses" value="asia"> Asia</label>
+        <label><input type="radio" name="ses" value="ambas"> Las dos</label>
+      </div>
+      <span class="note">El costo no varía si operás solo Nueva York, solo Asia o las dos.</span>
+    </fieldset>
+    <label>Tu nivel (opcional)
+      <select id="nivel">
+        <option value="">Elegí uno</option>
+        <option>Recién empiezo</option>
+        <option>Menos de 1 año operando</option>
+        <option>Más de 1 año operando</option>
+        <option>Fondeado pero sin retiros</option>
+        <option>Trader rentable</option>
+      </select>
+    </label>
+    <label>Algo que quieras contarme (opcional)<textarea id="nota" maxlength="500"></textarea></label>
+    <div class="hp" aria-hidden="true"><label>No completar<input id="web" type="text" tabindex="-1" autocomplete="off"></label></div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit" id="go">Reservar mi lugar</button><span class="msg" id="msg" role="status"></span></div>
+  </form>
+
+  <div class="done" id="done" hidden>
+    <h2>¡Listo, estás anotado!</h2>
+    <p class="lede">Te escribo por WhatsApp cuando se abran los lugares. Mientras tanto, seguime en mis redes.</p>
+    <a class="btn sec" href="../" style="text-decoration:none;text-align:center;display:inline-flex;align-items:center;justify-content:center">Volver al inicio</a>
+  </div>
+
+  <section class="admin" id="admin" hidden>
+    <h2>Lista de espera <span class="cnt" id="cnt"></span></h2>
+    <p class="note">Esto lo ves solo vos.</p>
+    <div class="bar">
+      <select id="flt" aria-label="Filtrar por estado"><option value="">Todos</option><option value="pendiente">Pendientes</option><option value="contactado">Contactados</option><option value="con_lugar">Con lugar</option></select>
+      <button class="btn sec" type="button" id="cp">Copiar WhatsApps</button>
+      <button class="btn sec" type="button" id="csv">Descargar CSV</button>
+      <span class="msg" id="amsg" role="status"></span>
+    </div>
+    <div id="list" style="display:flex;flex-direction:column;gap:10px"></div>
+  </section>
+  <p class="note" id="adminlink"><a href="../club/">Soy Mardex: entrar para ver la lista</a></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(function () {
+  var sb = supabase.createClient("https://qgsbzgdvukbakcnccjxp.supabase.co", "sb_publishable_v-3StvHQPsEnRQP7OuQNOw_YGa4Dpr7");
+  var $ = function (i) { return document.getElementById(i); };
+  var SES = { ny: "Nueva York", asia: "Asia", ambas: "Las dos" }, EST = { pendiente: "Pendiente", contactado: "Contactado", con_lugar: "Con lugar" };
+  var rows = [];
+
+  $("f").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var m = $("msg"); m.className = "msg"; m.textContent = "";
+    if ($("web").value) { $("f").hidden = true; $("done").hidden = false; return; }
+    var nombre = $("nombre").value.trim(), wa = $("wa").value.trim(), ses = (document.querySelector('input[name="ses"]:checked') || {}).value;
+    if (!nombre) { m.className = "msg err"; m.textContent = "Poné tu nombre."; return; }
+    if (wa.replace(/\D/g, "").length < 7) { m.className = "msg err"; m.textContent = "Poné tu WhatsApp con código de país."; return; }
+    if (!ses) { m.className = "msg err"; m.textContent = "Elegí una sesión."; return; }
+    $("go").disabled = true; m.textContent = "Enviando…";
+    sb.rpc("anotar_espera", { p_nombre: nombre, p_whatsapp: wa, p_email: $("mail").value, p_instagram: $("ig").value, p_sesion: ses, p_nivel: $("nivel").value, p_nota: $("nota").value }).then(function (r) {
+      $("go").disabled = false;
+      if (r.error) { m.className = "msg err"; m.textContent = "No se pudo enviar. Probá de nuevo en un rato."; return; }
+      $("f").hidden = true; $("done").hidden = false; window.scrollTo(0, 0);
+    });
+  });
+
+  function fmt(d) { try { return new Date(d).toLocaleDateString("es-UY", { day: "numeric", month: "short" }); } catch (e) { return ""; } }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function waLink(w) { return "https://wa.me/" + String(w).replace(/\D/g, ""); }
+  function shown() { var f = $("flt").value; return rows.filter(function (r) { return !f || r.estado === f; }); }
+  function render() {
+    var list = shown(), c = { pendiente: 0, contactado: 0, con_lugar: 0 };
+    rows.forEach(function (r) { c[r.estado]++; });
+    $("cnt").textContent = rows.length + " en total · " + c.pendiente + " pendientes";
+    $("list").innerHTML = list.length ? list.map(function (r) {
+      return '<div class="row"><div class="top"><b>' + esc(r.nombre) + '</b><select data-id="' + r.id + '" aria-label="Estado de ' + esc(r.nombre) + '">' +
+        Object.keys(EST).map(function (k) { return '<option value="' + k + '"' + (k === r.estado ? " selected" : "") + ">" + EST[k] + "</option>"; }).join("") + "</select></div>" +
+        '<div class="meta"><a href="' + waLink(r.whatsapp) + '" target="_blank" rel="noopener">' + esc(r.whatsapp) + "</a>" +
+        (r.email ? "<span>" + esc(r.email) + "</span>" : "") + (r.instagram ? "<span>" + esc(r.instagram) + "</span>" : "") +
+        "<span>" + SES[r.sesion] + "</span>" + (r.nivel ? "<span>" + esc(r.nivel) + "</span>" : "") + "<span>" + fmt(r.created_at) + "</span></div>" +
+        (r.nota ? '<div class="meta">' + esc(r.nota) + "</div>" : "") + "</div>";
+    }).join("") : '<p class="note">Todavía no hay nadie en esta vista.</p>';
+  }
+  $("flt").addEventListener("change", render);
+  $("list").addEventListener("change", function (e) {
+    var id = e.target.getAttribute("data-id"); if (!id) return;
+    sb.from("lista_espera").update({ estado: e.target.value }).eq("id", id).then(function (r) {
+      if (r.error) { $("amsg").className = "msg err"; $("amsg").textContent = "No se pudo guardar."; return; }
+      rows.forEach(function (x) { if (x.id === id) x.estado = e.target.value; }); render();
+    });
+  });
+  $("cp").addEventListener("click", function () {
+    var t = shown().map(function (r) { return r.nombre + " " + r.whatsapp; }).join("\n");
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { $("amsg").className = "msg ok"; $("amsg").textContent = "Copiado."; }, function () { $("amsg").className = "msg err"; $("amsg").textContent = "No se pudo copiar."; });
+  });
+  $("csv").addEventListener("click", function () {
+    var q = function (s) { return '"' + String(s == null ? "" : s).replace(/"/g, '""') + '"'; };
+    var out = ["Nombre,WhatsApp,Mail,Instagram,Sesion,Nivel,Estado,Fecha,Nota"].concat(shown().map(function (r) { return [r.nombre, r.whatsapp, r.email, r.instagram, SES[r.sesion], r.nivel, EST[r.estado], r.created_at, r.nota].map(q).join(","); })).join("\n");
+    var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["﻿" + out], { type: "text/csv" })); a.download = "lista-espera-live.csv"; document.body.appendChild(a); a.click(); a.remove();
+  });
+  sb.auth.getSession().then(function (s) {
+    if (!s.data.session) return;
+    sb.rpc("soy_admin").then(function (r) {
+      if (r.error || r.data !== true) return;
+      $("adminlink").hidden = true; $("admin").hidden = false;
+      sb.from("lista_espera").select("*").order("created_at", { ascending: false }).then(function (x) { rows = x.data || []; render(); });
+    });
+  });
+})();
+</script>
+</body></html>
