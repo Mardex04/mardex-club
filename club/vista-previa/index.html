@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Qué hay en el Mardex Club</title>
+<meta name="description" content="Mirá qué hay adentro del Mardex Club, la comunidad de alumnos de Mardex Trading, y cómo entrar.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{--bg:#0a141c;--surface:#101f2b;--surface-2:#152a39;--line:#1e3547;--fg:#e8eff3;--muted:#8da3b2;--accent:#f0b64a;--accent-ink:#1a1203;
+--f-display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;--f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:dark}
+@media (prefers-color-scheme:light){:root{--bg:#edf1f3;--surface:#fff;--surface-2:#f3f6f8;--line:#d5dee4;--fg:#0a141c;--muted:#526675;--accent:#e0a12f;color-scheme:light}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.5;padding:20px max(16px,env(safe-area-inset-right,0px)) 56px max(16px,env(safe-area-inset-left,0px))}
+a{color:inherit}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.back{font-size:14px;color:var(--muted);text-decoration:none;align-self:flex-start;padding:8px 0}
+.back:hover{color:var(--fg)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,7vw,50px);line-height:1.05;margin:0}
+h1 em{font-style:normal;color:var(--accent)}
+h2{font-family:var(--f-display);font-size:20px;margin:0}
+.lede{color:var(--muted);margin:0}
+.note{font-size:13px;color:var(--muted);margin:0}
+ul.inc{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+ul.inc li{display:flex;gap:12px;align-items:flex-start;padding-bottom:12px;border-bottom:1px solid var(--line)}
+ul.inc li:last-child{border:0;padding-bottom:0}
+ul.inc li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:8px}
+ul.inc b{display:block}
+ul.inc span{color:var(--muted);font-size:14px}
+ol.steps{list-style:none;counter-reset:s;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+ol.steps li{counter-increment:s;display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+ol.steps li::before{content:counter(s);flex:none;font-family:var(--f-display);font-weight:700;font-size:20px;line-height:1.2;color:var(--accent);width:18px}
+ol.steps b{display:block}
+ol.steps span{color:var(--muted);font-size:14px}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:13px 20px;font:inherit;font-weight:600;min-height:46px;text-decoration:none;display:inline-flex;align-items:center}
+.btn.sec{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.btn:hover{filter:brightness(1.05)}
+.btn.sec:hover{border-color:var(--accent);filter:none}
+</style></head><body>
+<div class="wrap">
+  <a class="back" href="../../">← Mardex Trading</a>
+  <div>
+    <h1>Mardex <em>Club</em></h1>
+    <p class="lede" style="margin-top:10px">Un lugar para aprender y estar en contacto con otros traders. Es para los alumnos de la mentoría.</p>
+  </div>
+
+  <h2>Qué hay adentro</h2>
+  <ul class="inc">
+    <li><div><b>Material</b><span>Videos, PDFs y enlaces para aprender desde cero. La metodología que utilizo, siempre arriba de todo.</span></div></li>
+    <li><div><b>Quizzes</b><span>Más de 50 preguntas para validar lo que aprendés: conceptos básicos, riesgo, psicotrading y repaso de cada PDF.</span></div></li>
+    <li><div><b>Tu perfil y tu progreso</b><span>Marcá lo que ya viste y seguí tus números: cuentas, retiros y ROI.</span></div></li>
+    <li><div><b>Ranking</b><span>Compará tus resultados con los del grupo. Vos elegís si tu perfil es público o privado.</span></div></li>
+    <li><div><b>Sorteos todos los meses</b><span>Siendo miembro activo ya participás.</span></div></li>
+  </ul>
+  <p class="note">El contenido es solo para miembros: desde acá no se puede ver ningún archivo.</p>
+
+  <h2>Cómo entrar</h2>
+  <ol class="steps">
+    <li><div><b>Pedime el código del Club</b><span>Te lo paso yo cuando empezás la mentoría.</span></div></li>
+    <li><div><b>Creá tu cuenta</b><span>Entrá al Club, tocá “Crear cuenta” y poné tu email y una contraseña de 8 caracteres o más.</span></div></li>
+    <li><div><b>Confirmá tu email</b><span>Si te llega un mail con un link, tocalo para confirmar tu cuenta.</span></div></li>
+    <li><div><b>Volvé a entrar</b><span>Con tu email y contraseña. Ahí te pido tu nombre y el código, y ya estás adentro.</span></div></li>
+  </ol>
+
+  <div class="cta">
+    <a class="btn" href="../">Ya soy alumno: entrar</a>
+    <a class="btn sec" href="../../mentorias/">Quiero ser alumno</a>
+  </div>
+</div>
+</body></html>
