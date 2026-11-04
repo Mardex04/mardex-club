@@ -127,16 +127,40 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 .plan-i{font-size:13px;overflow-wrap:anywhere}
 @media(max-width:560px){.plans{grid-template-columns:1fr}}
 .auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.authbox{width:min(420px,100%);display:flex;flex-direction:column;gap:14px}
+.authbox{width:min(520px,100%);display:flex;flex-direction:column;gap:14px}
 .seg{display:flex;gap:4px;border-bottom:1px solid var(--line)}
 .authbox form{display:flex;flex-direction:column;gap:12px}
 .authbox label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
 .authbox input{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px;color:var(--fg);font-size:16px;width:100%}
 .logout{background:none;border:0;color:var(--muted);cursor:pointer;font-size:13px;text-decoration:underline;padding:0}
+.mini{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
+.mini-top{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);font-weight:700}
+.mini-top em{font-style:normal;color:var(--accent)}
+.mini-av{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#1a1203;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
+.mini-tabs{display:flex;gap:2px;overflow-x:auto;padding:0 8px;border-bottom:1px solid var(--line)}
+.mini-tabs button{background:none;border:0;color:var(--muted);font:inherit;font-size:13px;padding:10px 8px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.mini-tabs button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+.mini-body{padding:14px;display:flex;flex-direction:column;gap:6px;min-height:118px}
+.mini-body b{font-size:15px}
+.mini-body p{margin:0;color:var(--muted);font-size:14px}
+.reg{margin:6px 0 0;font-size:20px}
 </style></head><body>
 <div class="auth" id="auth" hidden>
 <div class="authbox">
 <h1>Mardex <em>Club</em></h1>
+<div class="mini" id="mini" aria-label="Qué hay en el Mardex Club">
+<div class="mini-top"><span>Mardex <em>Club</em></span><span class="mini-av" aria-hidden="true">M</span></div>
+<div class="mini-tabs" role="tablist">
+<button type="button" role="tab" data-m="empezar" aria-selected="true">Empezá acá</button>
+<button type="button" role="tab" data-m="material" aria-selected="false">Material</button>
+<button type="button" role="tab" data-m="quizzes" aria-selected="false">Quizzes</button>
+<button type="button" role="tab" data-m="ranking" aria-selected="false">Ranking</button>
+<button type="button" role="tab" data-m="sorteo" aria-selected="false">Sorteos</button>
+</div>
+<div class="mini-body" id="mini-body" role="tabpanel"></div>
+</div>
+<p class="note">Es un adelanto: el contenido es solo para alumnos de la mentoría.</p>
+<h2 class="reg">Registrate acá</h2>
 <p class="note" id="auth-sub">Cargando…</p>
 <div class="seg" id="auth-seg" hidden>
 <button class="tab" type="button" id="a-in" aria-selected="true">Entrar</button>
@@ -336,4 +360,7 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="app.js"></script>
+<script>
+(function(){var T={empezar:["Empezá acá","Tu punto de partida: los primeros pasos si arrancás desde cero y las reglas del Club."],material:["Material","Videos, PDFs y enlaces para aprender desde cero. La metodología que utilizo, siempre arriba de todo. Marcás lo que ya viste."],quizzes:["Quizzes","Más de 50 preguntas para validar lo que aprendés: conceptos básicos, riesgo, psicotrading y repaso de cada PDF. Te dice al instante si acertaste."],ranking:["Ranking","Cargás tus compras de cuentas y tus retiros y comparás tus resultados con los del grupo. Tu perfil puede ser público o privado."],sorteo:["Sorteos","Todos los meses hay un sorteo entre los miembros. Siendo miembro activo ya participás."]};var box=document.getElementById("mini-body");function show(k){document.querySelectorAll("#mini [data-m]").forEach(function(b){b.setAttribute("aria-selected",b.dataset.m===k?"true":"false")});box.innerHTML="";var t=document.createElement("b");t.textContent=T[k][0];var p=document.createElement("p");p.textContent=T[k][1];box.appendChild(t);box.appendChild(p)}document.querySelectorAll("#mini [data-m]").forEach(function(b){b.addEventListener("click",function(){show(b.dataset.m)})});show("empezar")})();
+</script>
 </body></html>
