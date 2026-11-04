@@ -143,11 +143,22 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 .mini-body{padding:14px;display:flex;flex-direction:column;gap:6px;min-height:118px}
 .mini-body b{font-size:15px}
 .mini-body p{margin:0;color:var(--muted);font-size:14px}
-.reg{margin:6px 0 0;font-size:20px}
+.adel{margin:0;padding:12px 14px;border:1px solid var(--accent);border-radius:10px;background:rgba(240,182,74,.1);color:var(--fg);font-size:14px}
+.adel b{color:var(--accent)}
+.regbox{margin-top:34px;background:#0f3a5f;border:1px solid #1d5688;border-radius:14px;padding:24px 22px;display:flex;flex-direction:column;gap:14px}
+.regbox .reg{margin:0;font-size:26px;color:#fff;font-family:var(--f-display,inherit)}
+.regbox .reg em{font-style:normal;color:var(--accent)}
+.regbox .note,.regbox label{color:#cfe3f5}
+.regbox .seg{border-bottom-color:#2c6aa3}
+.regbox .seg .tab{color:#cfe3f5}
+.regbox .seg .tab[aria-selected="true"]{color:#fff;border-bottom-color:var(--accent)}
+.regbox input{border-color:#2c6aa3}
+.regbox .logout{color:#cfe3f5}
 </style></head><body>
 <div class="auth" id="auth" hidden>
 <div class="authbox">
 <h1>Mardex <em>Club</em></h1>
+<p class="adel"><b>Adelanto.</b> El contenido del Club es solo para alumnos de la mentoría.</p>
 <div class="mini" id="mini" aria-label="Qué hay en el Mardex Club">
 <div class="mini-top"><span>Mardex <em>Club</em></span><span class="mini-av" aria-hidden="true">M</span></div>
 <div class="mini-tabs" role="tablist">
@@ -159,8 +170,8 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 </div>
 <div class="mini-body" id="mini-body" role="tabpanel"></div>
 </div>
-<p class="note">Es un adelanto: el contenido es solo para alumnos de la mentoría.</p>
-<h2 class="reg">Registrate acá</h2>
+<div class="regbox">
+<h2 class="reg">Registrate <em>acá</em></h2>
 <p class="note" id="auth-sub">Cargando…</p>
 <div class="seg" id="auth-seg" hidden>
 <button class="tab" type="button" id="a-in" aria-selected="true">Entrar</button>
@@ -174,6 +185,7 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <div class="actions"><button class="btn primary" type="submit" id="a-go">Entrar</button><span class="msg" id="a-msg" role="status"></span></div>
 </form>
 <button class="logout" id="a-out" type="button" hidden>Cerrar sesión</button>
+</div>
 </div>
 </div>
 <div class="wrap" id="app" hidden>
