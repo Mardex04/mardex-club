@@ -11,7 +11,7 @@
   var S = { uid: null, st: null, admin: false, rank: [], mats: [], quizzes: [], prog: { scores: {}, vistos: {} }, movs: [], premio: "", notas: {}, perfiles: [], allMovs: [] };
   var TABS = ["empezar", "material", "quizzes", "ranking", "sorteo", "perfil"];
   var NIVELES = [["mentoria", "Mentoría"], ["live", "Live"], ["comunidad", "Comunidad"]];
-  var SECCIONES = ["Básicos de conceptos", "Quizzes de los PDFs"];
+  var SECCIONES = ["Básico", "Avanzado", "Quizzes de los PDFs"];
 
   function go(name) {
     TABS.forEach(function (t) {
@@ -295,15 +295,30 @@
   function renderQuizList() {
     $("quiz-run").hidden = true; $("quiz-list").hidden = false; $("quiz-list").textContent = "";
     var list = $("quiz-list");
-    SECCIONES.forEach(function (sec) {
+    var TEMAS = ["Metodología", "Gestión", "Psicotrading"];
+    function item(q) {
+      var it = el("div", "qitem"); var l = el("div"); l.appendChild(el("div", "t", q.data.titulo));
+      var sc = S.prog.scores[q.id]; l.appendChild(el("div", "s", q.data.preguntas.length + " preguntas" + (sc ? " · mejor: " + sc.mejor + "/" + sc.total : ""))); it.appendChild(l);
+      var b = el("button", "btn primary", sc ? "Repetir" : "Empezar"); b.type = "button"; b.addEventListener("click", function () { startQuiz(q); }); it.appendChild(b);
+      return it;
+    }
+    SECCIONES.forEach(function (sec, si) {
       var qs = S.quizzes.filter(function (q) { return (q.data.seccion || SECCIONES[0]) === sec; });
       if (!qs.length) return;
-      list.appendChild(el("div", "subh qsec", sec));
-      qs.forEach(function (q) {
-        var it = el("div", "qitem"); var l = el("div"); l.appendChild(el("div", "t", q.data.titulo));
-        var sc = S.prog.scores[q.id]; l.appendChild(el("div", "s", q.data.preguntas.length + " preguntas" + (sc ? " · mejor: " + sc.mejor + "/" + sc.total : ""))); it.appendChild(l);
-        var b = el("button", "btn primary", sc ? "Repetir" : "Empezar"); b.type = "button"; b.addEventListener("click", function () { startQuiz(q); }); it.appendChild(b); list.appendChild(it);
-      });
+      var det = el("details", "qdet"); det.open = si === 0; det.style.cssText = "border:1px solid var(--line);border-radius:12px;margin:12px 0;padding:0 14px;background:var(--surface)";
+      var sm = el("summary", "subh", sec + " · " + qs.length + (qs.length === 1 ? " quiz" : " quizzes")); sm.style.cssText = "cursor:pointer;padding:14px 0;margin:0;list-style-position:inside";
+      det.appendChild(sm);
+      var tem = qs.some(function (q) { return q.data.tema; });
+      if (!tem) { qs.forEach(function (q) { det.appendChild(item(q)); }); }
+      else {
+        TEMAS.forEach(function (t) {
+          var ts = qs.filter(function (q) { return q.data.tema === t; });
+          if (!ts.length) return;
+          var h = el("div", "note", t); h.style.cssText = "margin:10px 0 4px;font-weight:600;color:var(--accent-text)"; det.appendChild(h);
+          ts.forEach(function (q) { det.appendChild(item(q)); });
+        });
+      }
+      list.appendChild(det);
     });
     if (!S.quizzes.length) list.appendChild(el("p", "note", "Todavía no hay quizzes."));
   }
