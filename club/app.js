@@ -9,7 +9,7 @@
   function cls(n) { return n > 0 ? "up" : n < 0 ? "down" : ""; }
 
   var S = { uid: null, st: null, admin: false, rank: [], mats: [], quizzes: [], prog: { scores: {}, vistos: {} }, movs: [], premio: "", notas: {}, perfiles: [], allMovs: [] };
-  var TABS = ["empezar", "material", "quizzes", "ranking", "sorteo", "perfil"];
+  var TABS = ["empezar", "material", "quizzes", "calculadora", "ranking", "sorteo", "perfil"];
   var NIVELES = [["mentoria", "Mentoría"], ["live", "Live"], ["comunidad", "Comunidad"]];
   var SECCIONES = ["Básico", "Avanzado", "Quizzes de los PDFs"];
 
