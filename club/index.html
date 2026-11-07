@@ -197,6 +197,7 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <button class="tab" role="tab" id="t-empezar" data-tab="empezar" aria-selected="true">Empezá acá</button>
 <button class="tab" role="tab" id="t-material" data-tab="material" aria-selected="false">Material</button>
 <button class="tab" role="tab" id="t-quizzes" data-tab="quizzes" aria-selected="false">Quizzes</button>
+<button class="tab" role="tab" id="t-calculadora" data-tab="calculadora" aria-selected="false">Calculadora</button>
 <button class="tab" role="tab" id="t-ranking" data-tab="ranking" aria-selected="false">Ranking</button>
 <button class="tab" role="tab" id="t-sorteo" data-tab="sorteo" aria-selected="false">Sorteos</button>
 </nav>
@@ -345,6 +346,7 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <div id="quiz-list" class="qlist"></div>
 <div id="quiz-run" class="qrun" hidden></div>
 </section>
+<section class="panel" id="p-calculadora" role="tabpanel" hidden></section>
 <section class="panel" id="p-sorteo" role="tabpanel" hidden>
 <h2>Sorteos</h2>
 <h3>Sorteo mensual</h3>
@@ -372,6 +374,7 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="app.js"></script>
+<script src="calculadora.js"></script>
 <script>
 (function(){var T={empezar:["Empezá acá","Tu punto de partida: los primeros pasos si arrancás desde cero y las reglas del Club."],material:["Material","Videos, PDFs y enlaces para aprender desde cero. La metodología que utilizo, siempre arriba de todo. Marcás lo que ya viste."],quizzes:["Quizzes","Más de 50 preguntas para validar lo que aprendés: conceptos básicos, riesgo, psicotrading y repaso de cada PDF. Te dice al instante si acertaste."],ranking:["Ranking","Cargás tus compras de cuentas y tus retiros y comparás tus resultados con los del grupo. Tu perfil puede ser público o privado."],sorteo:["Sorteos","Todos los meses hay un sorteo entre los miembros. Siendo miembro activo ya participás."]};var box=document.getElementById("mini-body");function show(k){document.querySelectorAll("#mini [data-m]").forEach(function(b){b.setAttribute("aria-selected",b.dataset.m===k?"true":"false")});box.innerHTML="";var t=document.createElement("b");t.textContent=T[k][0];var p=document.createElement("p");p.textContent=T[k][1];box.appendChild(t);box.appendChild(p)}document.querySelectorAll("#mini [data-m]").forEach(function(b){b.addEventListener("click",function(){show(b.dataset.m)})});show("empezar")})();
 </script>
