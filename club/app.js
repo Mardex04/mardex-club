@@ -1,6 +1,7 @@
 (function () {
   var URL_ = "https://qgsbzgdvukbakcnccjxp.supabase.co";
   var KEY = "sb_publishable_v-3StvHQPsEnRQP7OuQNOw_YGa4Dpr7";
+  var recov = /type=recovery/.test(location.hash);
   var sb = window.supabase.createClient(URL_, KEY);
   var $ = function (id) { return document.getElementById(id); };
   function el(t, c, txt) { var e = document.createElement(t); if (c) e.className = c; if (txt != null) e.textContent = txt; return e; }
@@ -32,7 +33,7 @@
     $("l-nombre").hidden = m !== "up"; $("l-code").hidden = m !== "up";
     $("a-nombre").required = m === "up"; $("a-code").required = m === "up";
     $("a-pass").autocomplete = m === "up" ? "new-password" : "current-password";
-    $("a-go").textContent = m === "up" ? "Crear cuenta" : "Entrar";
+    $("a-go").textContent = m === "up" ? "Crear cuenta" : "Entrar"; $("a-forgot").hidden = m !== "in";
     $("a-msg").textContent = "";
   }
   $("a-in").addEventListener("click", function () { setMode("in"); });
@@ -56,7 +57,9 @@
     var email = $("a-email").value.trim(), pass = $("a-pass").value, msg = $("a-msg");
     var btn = $("a-go"); btn.disabled = true; msg.textContent = "Un momento…";
     var p;
-    if (S.needJoin) {
+    if (mode === "rec") {
+      p = sb.auth.updateUser({ password: pass }).then(function (r) { if (r.error) throw r.error; recov = false; mode = "in"; $("l-email").hidden = false; $("a-email").required = true; });
+    } else if (S.needJoin) {
       p = sb.rpc("unirse", { p_codigo: $("a-code").value, p_nombre: $("a-nombre").value }).then(function (r) { if (r.error) throw r.error; });
     } else if (mode === "up") {
       p = sb.auth.signUp({ email: email, password: pass, options: { emailRedirectTo: location.origin + "/club/", data: { nombre: $("a-nombre").value, codigo: $("a-code").value } } }).then(function (r) {
@@ -69,14 +72,52 @@
     }
     p.then(function () { msg.textContent = ""; boot(); }).catch(function (e) { msg.textContent = errTxt(e); }).then(function () { btn.disabled = false; });
   });
+  function recMode() {
+    mode = "rec"; recov = true;
+    $("l-email").hidden = true; $("a-email").required = false; $("l-nombre").hidden = true; $("l-code").hidden = true; $("a-forgot").hidden = true;
+    $("a-nombre").required = false; $("a-code").required = false; $("l-pass").hidden = false; $("a-pass").required = true; $("a-pass").value = "";
+    $("a-pass").autocomplete = "new-password"; $("a-go").textContent = "Guardar contraseña nueva"; $("a-msg").textContent = "";
+    showAuth("Elegí tu contraseña nueva (mínimo 8 caracteres).", true, false, false);
+  }
+  $("a-eye").addEventListener("click", function () {
+    var i = $("a-pass"), show = i.type === "password";
+    i.type = show ? "text" : "password"; this.setAttribute("aria-label", show ? "Ocultar contraseña" : "Ver contraseña"); this.style.color = show ? "var(--acc)" : "";
+  });
+  $("a-forgot").addEventListener("click", function () {
+    var email = $("a-email").value.trim(), msg = $("a-msg");
+    if (!email) { msg.textContent = "Escribí tu email arriba y volvé a tocar acá."; return; }
+    msg.textContent = "Un momento…";
+    sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + "/club/" }).then(function (r) {
+      msg.textContent = r.error ? errTxt(r.error) : "Listo. Si ese email tiene cuenta, te mandamos un link para elegir una contraseña nueva (revisá spam).";
+    });
+  });
+  sb.auth.onAuthStateChange(function (ev) { if (ev === "PASSWORD_RECOVERY") { recov = true; recMode(); } });
+  var delB = $("del-acc");
+  if (delB) {
+    dosPasos(delB, "Tocá otra vez para borrar todo", function () {
+      var m = $("del-msg");
+      if (S.admin) { m.textContent = "La cuenta de administrador no se puede eliminar."; return; }
+      m.textContent = "Borrando…";
+      sb.storage.from("comprobantes").list(S.uid, { limit: 1000 }).then(function (l) {
+        var fs = ((l && l.data) || []).map(function (f) { return S.uid + "/" + f.name; });
+        return fs.length ? sb.storage.from("comprobantes").remove(fs) : null;
+      }).catch(function () {}).then(function () { return sb.rpc("eliminar_mi_cuenta"); }).then(function (r) {
+        if (r.error) throw r.error;
+        return sb.auth.signOut();
+      }).then(function () { location.hash = ""; S.needJoin = false; boot(); }).catch(function (e) {
+        m.textContent = /admin_no_eliminable/.test((e && e.message) || "") ? "La cuenta de administrador no se puede eliminar." : "No se pudo: " + ((e && e.message) || "");
+      });
+    });
+  }
   function logout() { sb.auth.signOut().then(function () { location.hash = ""; S.needJoin = false; boot(); }); }
   $("a-out").addEventListener("click", logout); $("out2").addEventListener("click", logout);
 
   function boot() {
     sb.auth.getSession().then(function (r) {
       var ses = r.data && r.data.session;
-      if (!ses) { S.needJoin = false; $("a-email").readOnly = false; $("l-email").hidden = false; $("l-pass").hidden = false; $("a-pass").required = true; setMode("in"); showAuth("Entrá con tu cuenta o creá una con el código que te pasó Mardex.", true, true, false); return; }
+      if (!ses) { S.needJoin = false; $("a-email").readOnly = false; $("l-email").hidden = false; $("l-pass").hidden = false; $("a-pass").required = true; $("a-email").required = true; setMode("in"); showAuth("Entrá con tu cuenta o creá una con el código que te pasó Mardex.", true, true, false); return; }
       S.uid = ses.user.id;
+      if (recov) { recMode(); return; }
       return sb.rpc("mi_estado").then(function (e) {
         var st = e.data || {}; S.st = st; S.admin = !!st.admin;
         if (!st.existe && !S.autoTried && ses.user.user_metadata && ses.user.user_metadata.codigo) {
@@ -88,6 +129,7 @@
           $("a-go").textContent = "Entrar al Club"; showAuth("Ya tenés cuenta. Poné tu nombre y el código del Club para entrar.", true, false, true); return;
         }
         if (!st.miembro) { showAuth("Tu acceso al Club está inactivo. Hablá con Mardex.", false, false, true); return; }
+        var dn = $("del-acc"); if (dn) { dn.disabled = !!S.admin; if (S.admin) $("del-note").textContent = "La cuenta de administrador no se puede eliminar."; }
         startApp();
       });
     });
