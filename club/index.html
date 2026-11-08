@@ -154,6 +154,17 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 .regbox .seg .tab[aria-selected="true"]{color:#fff;border-bottom-color:var(--accent)}
 .regbox input{border-color:#2c6aa3}
 .regbox .logout{color:#cfe3f5}
+.cu-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.cu-tab { display: flex; flex-direction: column; gap: 2px; text-align: left; cursor: pointer; font: inherit; color: inherit; border: 1px solid var(--line); background: var(--surface); border-radius: 6px; padding: 12px; min-width: 0; }
+.cu-tab[aria-pressed="true"] { border-color: var(--accent); }
+.cu-tab .l { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+.cu-tab .v { font-family: var(--f-mono); font-weight: 500; font-size: clamp(14px, 4vw, 18px); overflow-wrap: anywhere; }
+.cu-tab .s { font-size: 12px; color: var(--muted); }
+.cu-card { border: 1px solid var(--line); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; background: var(--surface); }
+.cu-card .t { font-weight: 600; }
+.cu-card .s { font-size: 13px; color: var(--muted); }
+.cu-act { display: flex; flex-wrap: wrap; gap: 8px; }
+.cu-form { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 4px; }
 </style></head><body>
 <div class="auth" id="auth" hidden>
 <div class="authbox">
@@ -264,6 +275,55 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 </div>
 </details>
 </section>
+<section class="panel" id="p-cuentas" role="tabpanel" hidden>
+<div class="actions"><button class="btn" type="button" data-go="perfil">← Mi perfil</button></div>
+<h2>Mis cuentas</h2>
+<div class="stats" style="grid-template-columns:1fr"><div class="stat"><span class="l">Capital gestionado (evals + funded)</span><span class="v" id="cu-cap">–</span></div></div>
+<div class="cu-three">
+<button type="button" class="cu-tab" id="cu-t-eval" aria-pressed="true"><span class="l">Evals</span><span class="v" id="cu-eval">–</span><span class="s" id="cu-eval-n"></span></button>
+<button type="button" class="cu-tab" id="cu-t-funded" aria-pressed="false"><span class="l">Funded</span><span class="v" id="cu-funded">–</span><span class="s" id="cu-funded-n"></span></button>
+<button type="button" class="cu-tab" id="cu-t-quemada" aria-pressed="false"><span class="l">Quemadas</span><span class="v" id="cu-quemada">–</span><span class="s" id="cu-quemada-n"></span></button>
+</div>
+<div class="box" style="padding:0">
+<div class="sec">
+<h3>Cuánto invertí y retiré</h3>
+<label class="full" for="cu-per">Período
+<select id="cu-per"><option value="semana">Esta semana</option><option value="mes" selected>Este mes</option><option value="anio">Este año</option><option value="todo">Todo</option></select>
+</label>
+<div class="stats">
+<div class="stat"><span class="l">Invertido</span><span class="v" id="cu-inv">–</span></div>
+<div class="stat"><span class="l">Retirado</span><span class="v" id="cu-ret">–</span></div>
+<div class="stat"><span class="l">Neto</span><span class="v" id="cu-net">–</span></div>
+</div>
+</div>
+<div class="sec">
+<h3 id="cu-h">Evals</h3>
+<div id="cu-list" style="display:flex;flex-direction:column;gap:10px"></div>
+</div>
+<div class="sec">
+<h3>Agregar una eval que compré</h3>
+<form class="add" id="cform" autocomplete="off">
+<label for="c-emp">Empresa
+<input id="c-emp" list="c-emps" type="text" required maxlength="60" placeholder="Ej. Alpha Futures">
+<datalist id="c-emps"><option value="Alpha Futures"><option value="Topstep"><option value="Tradeify"><option value="Lucid Trading"><option value="MyFundedFutures"><option value="Apex"><option value="NYS Markets"><option value="The5ers"><option value="Top One Futures"></datalist>
+</label>
+<label for="c-tam">Tamaño de la cuenta (USD)
+<input id="c-tam" type="number" inputmode="decimal" min="1" step="any" required placeholder="50000">
+</label>
+<label for="c-costo">Lo que pagaste (USD)
+<input id="c-costo" type="number" inputmode="decimal" min="0.01" step="any" required>
+</label>
+<label for="c-fecha">Fecha
+<input id="c-fecha" type="date" required>
+</label>
+<label class="full" for="c-file">Captura de la compra
+<input id="c-file" type="file" accept="image/*" required>
+</label>
+<div class="actions"><button class="btn primary" type="submit" id="c-save">Agregar cuenta</button><span class="msg" id="c-msg" role="status"></span></div>
+</form>
+</div>
+</div>
+</section>
 <section class="panel" id="p-perfil" role="tabpanel" hidden>
 <h2>Mi perfil</h2>
 <div class="stats">
@@ -286,25 +346,9 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 </form>
 </div>
 <div class="sec">
-<h3>Agregar movimiento</h3>
-<form class="add" id="mform" autocomplete="off">
-<label for="m-tipo">Tipo
-<select id="m-tipo"><option value="inv">Compra de cuenta</option><option value="ret">Retiro</option></select>
-</label>
-<label for="m-monto">Monto (USD)
-<input id="m-monto" type="number" inputmode="decimal" min="0.01" step="any" required>
-</label>
-<label for="m-detalle">Detalle (firma o cuenta)
-<input id="m-detalle" type="text" maxlength="80" placeholder="Ej. Alpha Futures 50K">
-</label>
-<label for="m-fecha">Fecha
-<input id="m-fecha" type="date" required>
-</label>
-<label class="full" for="m-file"><span id="m-file-l">Captura de la compra</span>
-<input id="m-file" type="file" accept="image/*" required>
-</label>
-<div class="actions"><button class="btn primary" type="submit" id="m-save">Subir movimiento</button><span class="msg" id="m-msg" role="status"></span></div>
-</form>
+<h3>Mis cuentas</h3>
+<p class="note">Tus evals y cuentas funded en un solo lugar. Lo que invertís, lo que retirás y tu ROI se calculan solos.</p>
+<div class="actions"><button class="btn primary" type="button" data-go="cuentas">Ver mis cuentas →</button></div>
 </div>
 <div class="sec">
 <h3>Mis movimientos</h3>
