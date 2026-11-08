@@ -277,16 +277,7 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 </section>
 <section class="panel" id="p-cuentas" role="tabpanel" hidden>
 <div class="actions"><button class="btn" type="button" data-go="perfil">← Mi perfil</button></div>
-<h2>Mis cuentas</h2>
-<div class="stats" style="grid-template-columns:1fr"><div class="stat"><span class="l">Capital gestionado (evals + funded)</span><span class="v" id="cu-cap">–</span></div></div>
-<div class="cu-three">
-<button type="button" class="cu-tab" id="cu-t-eval" aria-pressed="true"><span class="l">Evals</span><span class="v" id="cu-eval">–</span><span class="s" id="cu-eval-n"></span></button>
-<button type="button" class="cu-tab" id="cu-t-funded" aria-pressed="false"><span class="l">Funded</span><span class="v" id="cu-funded">–</span><span class="s" id="cu-funded-n"></span></button>
-<button type="button" class="cu-tab" id="cu-t-quemada" aria-pressed="false"><span class="l">Quemadas</span><span class="v" id="cu-quemada">–</span><span class="s" id="cu-quemada-n"></span></button>
-</div>
-<div class="box" style="padding:0">
-<div class="sec">
-<h3>Cuánto invertí y retiré</h3>
+<h2>Cuánto invertí y retiré</h2>
 <label class="full" for="cu-per">Período
 <select id="cu-per"><option value="semana">Esta semana</option><option value="mes" selected>Este mes</option><option value="anio">Este año</option><option value="todo">Todo</option></select>
 </label>
@@ -295,7 +286,14 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <div class="stat"><span class="l">Retirado</span><span class="v" id="cu-ret">–</span></div>
 <div class="stat"><span class="l">Neto</span><span class="v" id="cu-net">–</span></div>
 </div>
+<h2 style="margin-top:10px">Mis cuentas</h2>
+<div class="stats" style="grid-template-columns:1fr"><div class="stat"><span class="l">Capital gestionado (evals + funded)</span><span class="v" id="cu-cap">–</span></div></div>
+<div class="cu-three">
+<button type="button" class="cu-tab" id="cu-t-eval" aria-pressed="true"><span class="l">Evals</span><span class="v" id="cu-eval">–</span><span class="s" id="cu-eval-n"></span></button>
+<button type="button" class="cu-tab" id="cu-t-funded" aria-pressed="false"><span class="l">Funded</span><span class="v" id="cu-funded">–</span><span class="s" id="cu-funded-n"></span></button>
+<button type="button" class="cu-tab" id="cu-t-quemada" aria-pressed="false"><span class="l">Quemadas</span><span class="v" id="cu-quemada">–</span><span class="s" id="cu-quemada-n"></span></button>
 </div>
+<div class="box" style="padding:0">
 <div class="sec">
 <h3 id="cu-h">Evals</h3>
 <div id="cu-list" style="display:flex;flex-direction:column;gap:10px"></div>
@@ -307,18 +305,22 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <input id="c-emp" list="c-emps" type="text" required maxlength="60" placeholder="Ej. Alpha Futures">
 <datalist id="c-emps"><option value="Alpha Futures"><option value="Topstep"><option value="Tradeify"><option value="Lucid Trading"><option value="MyFundedFutures"><option value="Apex"><option value="NYS Markets"><option value="The5ers"><option value="Top One Futures"></datalist>
 </label>
-<label for="c-tam">Tamaño de la cuenta (USD)
-<input id="c-tam" type="number" inputmode="decimal" min="1" step="any" required placeholder="50000">
+<label for="c-tam">Tamaño de la cuenta
+<select id="c-tam" required><option value="">Elegí un tamaño…</option><option value="25000">$25K</option><option value="50000">$50K</option><option value="100000">$100K</option><option value="150000">$150K</option></select>
 </label>
-<label for="c-costo">Lo que pagaste (USD)
-<input id="c-costo" type="number" inputmode="decimal" min="0.01" step="any" required>
+<label for="c-pago">¿Cómo la conseguiste?
+<select id="c-pago"><option value="pago">La pagué (escribo el monto)</option><option value="gratis">Gratis (sorteo u otro motivo)</option></select>
+</label>
+<label for="c-costo" id="c-costo-l">Lo que pagaste (USD, más de $10)
+<input id="c-costo" type="number" inputmode="decimal" min="10.01" step="any" required>
 </label>
 <label for="c-fecha">Fecha
 <input id="c-fecha" type="date" required>
 </label>
-<label class="full" for="c-file">Captura de la compra
+<label class="full" for="c-file" id="c-file-l">Captura de la compra
 <input id="c-file" type="file" accept="image/*" required>
 </label>
+<label class="full check" for="c-ok" id="c-ok-l"><input id="c-ok" type="checkbox" required><span>Confirmo que la captura es real y que el monto es el que pagué.</span></label>
 <div class="actions"><button class="btn primary" type="submit" id="c-save">Agregar cuenta</button><span class="msg" id="c-msg" role="status"></span></div>
 </form>
 </div>
