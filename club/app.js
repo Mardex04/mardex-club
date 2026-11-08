@@ -304,7 +304,7 @@
     var gratis = $("c-pago").value === "gratis", f = $("c-file").files[0], msg = $("c-msg"), btn = $("c-save");
     var emp = $("c-emp").value.trim(), tam = Number($("c-tam").value), costo = gratis ? 0 : Number($("c-costo").value), fe = $("c-fecha").value;
     if ([25000, 50000, 100000, 150000].indexOf(tam) < 0) { msg.textContent = "Elegí un tamaño de la lista."; return; }
-    if (!gratis && !(costo > 10)) { msg.textContent = "Lo que pagaste tiene que ser más de $10, o elegí Gratis."; return; }
+    if (!gratis && !(costo > 10)) { msg.textContent = "El monto tiene que ser mayor a $10. Poné otro monto o elegí Gratis."; return; }
     if (!gratis && !f) { msg.textContent = "Subí la captura de la compra."; return; }
     if (f && f.size > 8 * 1024 * 1024) { msg.textContent = "La imagen pesa más de 8 MB."; return; }
     btn.disabled = true; msg.textContent = "Guardando…";
@@ -366,7 +366,7 @@
       NIVELES.forEach(function (x) { var o = el("option", "", x[1]); o.value = x[0]; if ((n.plan || "comunidad") === x[0]) o.selected = true; sel.appendChild(o); });
       sel.addEventListener("change", function () { sb.from("admin_notas").update({ plan: sel.value }).eq("user_id", p.id).then(reload); });
       acts.appendChild(sel);
-      var ver = el("button", "btn", "Ver comprobantes"); ver.type = "button"; ver.addEventListener("click", function () { reviewUid = p.id; renderItems(); }); acts.appendChild(ver);
+      var ver = el("button", "btn", "Ver cuentas y comprobantes"); ver.type = "button"; ver.addEventListener("click", function () { reviewUid = p.id; renderItems(); }); acts.appendChild(ver);
       if (!n.is_admin) {
         var bj = el("button", "btn", n.activo === false ? "Reactivar" : "Dar de baja"); bj.type = "button";
         bj.addEventListener("click", function () { bj.disabled = true; sb.from("admin_notas").update({ activo: n.activo === false }).eq("user_id", p.id).then(reload); });
@@ -387,7 +387,17 @@
   function renderItems() {
     var box = $("r-items"); box.textContent = ""; if (!reviewUid) return;
     var p = S.perfiles.filter(function (x) { return x.id === reviewUid; })[0];
-    box.appendChild(el("h3", "", "Movimientos de " + (p ? p.nombre : "")));
+    box.appendChild(el("h3", "", "Cuentas y movimientos de " + (p ? p.nombre : "")));
+    var cbox = el("div", "", ""); cbox.style.cssText = "display:flex;flex-direction:column;gap:6px;margin:8px 0";
+    cbox.appendChild(el("p", "note", "Cargando cuentas…")); box.appendChild(cbox);
+    var uid = reviewUid;
+    sb.from("cuentas").select("*").eq("user_id", uid).order("created_at", { ascending: false }).then(function (r) {
+      if (uid !== reviewUid) return; cbox.textContent = "";
+      var cs = r.data || [], n = { eval: 0, funded: 0, quemada: 0 };
+      cs.forEach(function (c) { n[c.estado] = (n[c.estado] || 0) + 1; });
+      cbox.appendChild(el("p", "note", cs.length + (cs.length === 1 ? " cuenta" : " cuentas") + " · " + n.eval + " eval · " + n.funded + " funded · " + n.quemada + " quemadas"));
+      cs.forEach(function (c) { cbox.appendChild(el("div", "mv", c.empresa + " · " + usd(c.tamano) + " · " + ({ eval: "Eval", funded: "Funded", quemada: "Quemada" }[c.estado] || c.estado) + " · pagó " + usd(c.costo) + " · " + c.fecha)); });
+    });
     var list = S.allMovs.filter(function (m) { return m.user_id === reviewUid; });
     if (!list.length) box.appendChild(el("p", "note", "Sin movimientos."));
     list.forEach(function (m) { box.appendChild(movCard(m, false)); });
