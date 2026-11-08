@@ -166,6 +166,17 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 .cu-card .s { font-size: 13px; color: var(--muted); }
 .cu-act { display: flex; flex-wrap: wrap; gap: 8px; }
 .cu-form { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 4px; }
+
+/* pantallas grandes */
+@media (min-width: 900px) {
+  .wrap { max-width: 1000px; }
+  #mods, #quiz-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; align-items: start; }
+  #quiz-list { gap: 18px 32px; }
+  #p-empezar, #p-calculadora, #p-perfil, #p-cuentas, #p-ranking, #p-sorteo { width: 100%; max-width: 760px; align-self: center; }
+}
+@media (min-width: 1400px) {
+  .wrap { max-width: 1160px; }
+}
 </style></head><body>
 <div class="auth" id="auth" hidden>
 <div class="authbox">
