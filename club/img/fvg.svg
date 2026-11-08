@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" width="480" height="300">
+<rect width="480" height="300" fill="#ffffff"/>
+<rect x="120" y="120" width="260" height="50" fill="#f5b942" fill-opacity=".35" stroke="#d99a1a" stroke-dasharray="5 4"/>
+<line x1="110" y1="170" x2="110" y2="250" stroke="#1d9e6a" stroke-width="3"/>
+<rect x="90" y="195" width="40" height="45" fill="#1d9e6a"/>
+<line x1="220" y1="60" x2="220" y2="235" stroke="#1d9e6a" stroke-width="3"/>
+<rect x="195" y="75" width="50" height="150" fill="#1d9e6a"/>
+<line x1="330" y1="40" x2="330" y2="120" stroke="#1d9e6a" stroke-width="3"/>
+<rect x="310" y="55" width="40" height="55" fill="#1d9e6a"/>
+<text x="110" y="278" font-family="Arial" font-size="15" text-anchor="middle" fill="#333">Vela 1</text>
+<text x="220" y="278" font-family="Arial" font-size="15" text-anchor="middle" fill="#333">Vela 2</text>
+<text x="330" y="278" font-family="Arial" font-size="15" text-anchor="middle" fill="#333">Vela 3</text>
+<text x="400" y="150" font-family="Arial" font-size="22" font-weight="bold" fill="#b36f00" text-anchor="middle">?</text>
+</svg>
