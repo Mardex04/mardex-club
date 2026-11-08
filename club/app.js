@@ -9,7 +9,7 @@
   function cls(n) { return n > 0 ? "up" : n < 0 ? "down" : ""; }
 
   var S = { uid: null, st: null, admin: false, rank: [], mats: [], quizzes: [], prog: { scores: {}, vistos: {} }, movs: [], premio: "", notas: {}, perfiles: [], allMovs: [] };
-  var TABS = ["empezar", "material", "quizzes", "calculadora", "ranking", "sorteo", "perfil"];
+  var TABS = ["empezar", "material", "quizzes", "calculadora", "ranking", "sorteo", "perfil", "cuentas"];
   var NIVELES = [["mentoria", "Mentoría"], ["live", "Live"], ["comunidad", "Comunidad"]];
   var SECCIONES = ["Básico", "Avanzado", "Quizzes de los PDFs"];
 
@@ -102,7 +102,9 @@
     if (S.admin) {
       jobs.push(sb.from("admin_notas").select("*"), sb.from("profiles").select("*"), sb.from("movimientos").select("*").order("created_at", { ascending: false }));
     }
+    jobs.push(sb.from("cuentas").select("*").eq("user_id", S.uid).order("created_at", { ascending: false }));
     return Promise.all(jobs).then(function (r) {
+      S.cuentas = r[r.length - 1].data || [];
       S.mats = r[0].data || []; S.quizzes = r[1].data || [];
       S.premio = (r[2].data && r[2].data.value && r[2].data.value.premio) || "";
       S.prog = r[3].data ? { scores: r[3].data.scores || {}, vistos: r[3].data.vistos || {} } : { scores: {}, vistos: {} };
@@ -115,7 +117,7 @@
     $("review").hidden = !S.admin; $("mat-admin").hidden = !S.admin; $("prize-form").hidden = !S.admin; $("draw").hidden = !S.admin;
     load().then(function () { renderAll(); var h = (location.hash || "").slice(1); go(TABS.indexOf(h) >= 0 ? h : "empezar"); });
   }
-  function renderAll() { renderMe(); renderRanking(); renderPerfil(); renderMaterial(); renderQuizList(); renderPrize(); if (S.admin) renderAdmin(); }
+  function renderAll() { renderMe(); renderRanking(); renderPerfil(); renderCuentas(); renderMaterial(); renderQuizList(); renderPrize(); if (S.admin) renderAdmin(); }
   function reload() { return load().then(renderAll); }
 
   /* ---------- ME / PERFIL ---------- */
@@ -131,12 +133,10 @@
     $("my-roi").textContent = roi == null ? "–" : pct(roi); $("my-roi").className = "v " + (roi == null ? "" : cls(roi));
     if (document.activeElement !== $("p-nombre")) $("p-nombre").value = S.st.nombre || "";
     $("p-publico").checked = !!S.st.publico;
-    if (!$("m-fecha").value) $("m-fecha").value = new Date().toISOString().slice(0, 10);
     var box = $("m-list"); box.textContent = "";
     if (!S.movs.length) box.appendChild(el("p", "note", "Todavía no cargaste movimientos."));
     S.movs.forEach(function (m) { box.appendChild(movCard(m, true)); });
   }
-  $("m-tipo").addEventListener("change", function () { $("m-file-l").textContent = $("m-tipo").value === "inv" ? "Captura de la compra" : "Captura del retiro"; });
   $("pform").addEventListener("submit", function (ev) {
     ev.preventDefault();
     var nombre = $("p-nombre").value.trim(); if (!nombre) return;
@@ -161,22 +161,126 @@
     }
     return d;
   }
-  $("mform").addEventListener("submit", function (ev) {
-    ev.preventDefault();
-    var f = $("m-file").files[0], msg = $("m-msg"), btn = $("m-save");
-    if (!f) return; if (f.size > 8 * 1024 * 1024) { msg.textContent = "La imagen pesa más de 8 MB."; return; }
-    btn.disabled = true; msg.textContent = "Subiendo…";
+  /* ---------- CUENTAS ---------- */
+  S.cuentas = [];
+  var CU = { per: "mes", ver: "eval" };
+  function hoy() { return new Date().toISOString().slice(0, 10); }
+  function perStart(p) {
+    var d = new Date(); d.setHours(0, 0, 0, 0);
+    if (p === "semana") { d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d; }
+    if (p === "mes") { d.setDate(1); return d; }
+    if (p === "anio") { d.setMonth(0, 1); return d; }
+    return null;
+  }
+  function mvFecha(m) { return new Date((m.fecha || (m.created_at || "").slice(0, 10)) + "T00:00:00"); }
+  function chk(r) { if (r && r.error) throw r.error; return r; }
+  function bad(t) { var e = new Error(t); e.mine = t; return Promise.reject(e); }
+  function subir(f) {
     var ext = (f.name.split(".").pop() || "jpg").replace(/[^a-z0-9]/gi, "").toLowerCase().slice(0, 5) || "jpg";
     var path = S.uid + "/" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "." + ext;
-    sb.storage.from("comprobantes").upload(path, f, { contentType: f.type }).then(function (u) {
-      if (u.error) throw u.error;
-      return sb.from("movimientos").insert({ user_id: S.uid, tipo: $("m-tipo").value, monto: Number($("m-monto").value), nota: $("m-detalle").value.trim() || null, fecha: $("m-fecha").value, comprobante_path: path });
-    }).then(function (r) {
-      if (r.error) throw r.error;
-      msg.textContent = "Listo, movimiento cargado."; $("mform").reset(); $("m-fecha").value = new Date().toISOString().slice(0, 10); return reload();
-    }).catch(function () { msg.textContent = "No se pudo subir. Probá de nuevo."; }).then(function () { btn.disabled = false; });
+    return sb.storage.from("comprobantes").upload(path, f, { contentType: f.type }).then(function (u) { if (u.error) throw u.error; return path; });
+  }
+  function miniForm(fields, submitTxt, onSubmit) {
+    var f = el("form", "add cu-form"), refs = {};
+    fields.forEach(function (x) {
+      var l = el("label", "full", x.l), i = el("input"); i.type = x.t; if (x.req) i.required = true;
+      if (x.step) { i.step = "any"; i.min = "0"; i.setAttribute("inputmode", "decimal"); }
+      if (x.acc) i.accept = x.acc; if (x.v) i.value = x.v; l.appendChild(i); f.appendChild(l); refs[x.k] = i;
+    });
+    var a = el("div", "actions"), b = el("button", "btn primary", submitTxt), msg = el("span", "msg"); b.type = "submit"; a.appendChild(b); a.appendChild(msg); f.appendChild(a);
+    f.addEventListener("submit", function (ev) {
+      ev.preventDefault(); b.disabled = true; msg.textContent = "Guardando…";
+      onSubmit(refs).then(reload).catch(function (e) { msg.textContent = (e && e.mine) || "No se pudo guardar. Probá de nuevo."; b.disabled = false; });
+    });
+    return f;
+  }
+  function formFunded(c) {
+    return miniForm([
+      { k: "a", l: "Activación que pagaste en USD (dejalo vacío si no pagaste)", t: "number", step: 1 },
+      { k: "d", l: "Fecha", t: "date", req: 1, v: hoy() },
+      { k: "f", l: "Captura de la activación (solo si pagaste)", t: "file", acc: "image/*" }
+    ], "Confirmar: pasó a funded", function (r) {
+      var a = Number(r.a.value) || 0, f = r.f.files[0];
+      if (a > 0 && !f) return bad("Si pagaste activación, subí la captura.");
+      if (f && f.size > 8 * 1024 * 1024) return bad("La imagen pesa más de 8 MB.");
+      var p = a > 0 ? subir(f).then(function (path) {
+        return sb.from("movimientos").insert({ user_id: S.uid, tipo: "inv", monto: a, nota: "Activación · " + c.empresa + " " + usd(c.tamano), fecha: r.d.value, comprobante_path: path, cuenta_id: c.id });
+      }).then(chk) : Promise.resolve();
+      return p.then(function () { return sb.from("cuentas").update({ estado: "funded", funded_fecha: r.d.value }).eq("id", c.id); }).then(chk);
+    });
+  }
+  function formRetiro(c) {
+    return miniForm([
+      { k: "m", l: "Monto retirado en USD", t: "number", step: 1, req: 1 },
+      { k: "d", l: "Fecha", t: "date", req: 1, v: hoy() },
+      { k: "f", l: "Captura del certificado del retiro", t: "file", acc: "image/*", req: 1 }
+    ], "Guardar retiro", function (r) {
+      var m = Number(r.m.value), f = r.f.files[0];
+      if (!(m > 0)) return bad("Poné el monto del retiro.");
+      if (!f) return bad("Subí la captura del certificado.");
+      if (f.size > 8 * 1024 * 1024) return bad("La imagen pesa más de 8 MB.");
+      return subir(f).then(function (path) {
+        return sb.from("movimientos").insert({ user_id: S.uid, tipo: "ret", monto: m, nota: "Retiro · " + c.empresa + " " + usd(c.tamano), fecha: r.d.value, comprobante_path: path, cuenta_id: c.id });
+      }).then(chk);
+    });
+  }
+  function cuCard(c) {
+    var d = el("div", "cu-card"), i = 0, r = 0;
+    S.movs.forEach(function (x) { if (x.cuenta_id === c.id) { if (x.tipo === "inv") i += Number(x.monto); else r += Number(x.monto); } });
+    d.appendChild(el("div", "t", c.empresa + " · " + usd(c.tamano)));
+    d.appendChild(el("div", "s", "Comprada " + c.fecha + " · Invertido " + usd(i) + " · Retirado " + usd(r)));
+    var act = el("div", "cu-act"), slot = el("div");
+    function btn(txt, fn, prim) { var b = el("button", "btn" + (prim ? " primary" : ""), txt); b.type = "button"; b.addEventListener("click", fn); act.appendChild(b); }
+    if (c.estado === "eval") btn("Pasar a funded", function () { slot.textContent = ""; slot.appendChild(formFunded(c)); }, true);
+    if (c.estado === "funded") btn("Hice un retiro", function () { slot.textContent = ""; slot.appendChild(formRetiro(c)); }, true);
+    if (c.estado !== "quemada") btn("La quemé", function () {
+      if (!confirm("¿Marcar esta cuenta como quemada?")) return;
+      sb.from("cuentas").update({ estado: "quemada", quemada_fecha: hoy() }).eq("id", c.id).then(reload);
+    });
+    btn("Borrar", function () {
+      if (!confirm("¿Borrar esta cuenta y sus movimientos? Cambia tu inversión y tu ROI.")) return;
+      sb.from("movimientos").delete().eq("cuenta_id", c.id).then(function () { return sb.from("cuentas").delete().eq("id", c.id); }).then(reload);
+    });
+    d.appendChild(act); d.appendChild(slot);
+    return d;
+  }
+  function renderCuentas() {
+    var by = { eval: [], funded: [], quemada: [] };
+    S.cuentas.forEach(function (c) { (by[c.estado] || by.eval).push(c); });
+    function cap(l) { var t = 0; l.forEach(function (c) { t += Number(c.tamano); }); return t; }
+    $("cu-cap").textContent = usd(cap(by.eval) + cap(by.funded));
+    ["eval", "funded", "quemada"].forEach(function (k) {
+      $("cu-" + k).textContent = usd(cap(by[k]));
+      $("cu-" + k + "-n").textContent = by[k].length + (by[k].length === 1 ? " cuenta" : " cuentas");
+      $("cu-t-" + k).setAttribute("aria-pressed", CU.ver === k ? "true" : "false");
+    });
+    var st = perStart(CU.per), inv = 0, ret = 0;
+    S.movs.forEach(function (m) { if (st && mvFecha(m) < st) return; if (m.tipo === "inv") inv += Number(m.monto); else ret += Number(m.monto); });
+    $("cu-inv").textContent = usd(inv); $("cu-ret").textContent = usd(ret);
+    $("cu-net").textContent = usd(ret - inv); $("cu-net").className = "v " + cls(ret - inv);
+    $("cu-h").textContent = { eval: "Evals", funded: "Funded", quemada: "Quemadas" }[CU.ver];
+    var box = $("cu-list"); box.textContent = "";
+    if (!by[CU.ver].length) box.appendChild(el("p", "note", "No tenés cuentas acá todavía."));
+    by[CU.ver].forEach(function (c) { box.appendChild(cuCard(c)); });
+  }
+  $("cu-per").addEventListener("change", function () { CU.per = $("cu-per").value; renderCuentas(); });
+  ["eval", "funded", "quemada"].forEach(function (k) { $("cu-t-" + k).addEventListener("click", function () { CU.ver = k; renderCuentas(); }); });
+  $("c-fecha").value = hoy();
+  $("cform").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var f = $("c-file").files[0], msg = $("c-msg"), btn = $("c-save");
+    if (!f) return; if (f.size > 8 * 1024 * 1024) { msg.textContent = "La imagen pesa más de 8 MB."; return; }
+    btn.disabled = true; msg.textContent = "Subiendo…";
+    var cuenta, emp = $("c-emp").value.trim(), tam = Number($("c-tam").value), costo = Number($("c-costo").value), fe = $("c-fecha").value;
+    subir(f).then(function (path) {
+      return sb.from("cuentas").insert({ user_id: S.uid, empresa: emp, tamano: tam, costo: costo, estado: "eval", fecha: fe }).select().single().then(function (r) {
+        chk(r); cuenta = r.data;
+        return sb.from("movimientos").insert({ user_id: S.uid, tipo: "inv", monto: costo, nota: "Eval · " + emp + " " + usd(tam), fecha: fe, comprobante_path: path, cuenta_id: cuenta.id });
+      }).then(function (r) { if (r.error) { return sb.from("cuentas").delete().eq("id", cuenta.id).then(function () { throw r.error; }); } });
+    }).then(function () {
+      msg.textContent = "Listo, cuenta agregada."; $("cform").reset(); $("c-fecha").value = hoy(); CU.ver = "eval"; return reload();
+    }).catch(function () { msg.textContent = "No se pudo guardar. Probá de nuevo."; }).then(function () { btn.disabled = false; });
   });
-
   /* ---------- RANKING ---------- */
   function renderRanking() {
     var pub = S.rank.filter(function (a) { return a.publico; }).sort(function (a, b) { return b.roi - a.roi; });
