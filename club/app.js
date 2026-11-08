@@ -59,9 +59,9 @@
     if (S.needJoin) {
       p = sb.rpc("unirse", { p_codigo: $("a-code").value, p_nombre: $("a-nombre").value }).then(function (r) { if (r.error) throw r.error; });
     } else if (mode === "up") {
-      p = sb.auth.signUp({ email: email, password: pass }).then(function (r) {
+      p = sb.auth.signUp({ email: email, password: pass, options: { emailRedirectTo: location.origin + "/club/", data: { nombre: $("a-nombre").value, codigo: $("a-code").value } } }).then(function (r) {
         if (r.error) throw r.error;
-        if (!r.data.session) { setMode("in"); throw new Error("Te mandamos un mail: tocá el link para confirmar y después volvé a entrar acá. Ahí te pedimos tu nombre y el código del Club."); }
+        if (!r.data.session) { setMode("in"); throw new Error("Te mandamos un mail. Tocá el link que te llegó y vas a entrar directo al Club (revisá también spam)."); }
         return sb.rpc("unirse", { p_codigo: $("a-code").value, p_nombre: $("a-nombre").value }).then(function (j) { if (j.error) throw j.error; });
       });
     } else {
@@ -79,6 +79,10 @@
       S.uid = ses.user.id;
       return sb.rpc("mi_estado").then(function (e) {
         var st = e.data || {}; S.st = st; S.admin = !!st.admin;
+        if (!st.existe && !S.autoTried && ses.user.user_metadata && ses.user.user_metadata.codigo) {
+          S.autoTried = true;
+          return sb.rpc("unirse", { p_codigo: ses.user.user_metadata.codigo, p_nombre: ses.user.user_metadata.nombre || "" }).then(function () { return boot(); });
+        }
         if (!st.existe) {
           S.needJoin = true; setMode("up"); $("l-email").hidden = true; $("l-pass").hidden = true; $("a-email").required = false; $("a-pass").required = false;
           $("a-go").textContent = "Entrar al Club"; showAuth("Ya tenés cuenta. Poné tu nombre y el código del Club para entrar.", true, false, true); return;
