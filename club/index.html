@@ -299,7 +299,7 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <div id="cu-list" style="display:flex;flex-direction:column;gap:10px"></div>
 </div>
 <div class="sec">
-<h3>Agregar una eval que compré</h3>
+<h3>Agregar una eval</h3>
 <form class="add" id="cform" autocomplete="off">
 <label for="c-emp">Empresa
 <input id="c-emp" list="c-emps" type="text" required maxlength="60" placeholder="Ej. Alpha Futures">
@@ -308,10 +308,10 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <label for="c-tam">Tamaño de la cuenta
 <select id="c-tam" required><option value="">Elegí un tamaño…</option><option value="25000">$25K</option><option value="50000">$50K</option><option value="100000">$100K</option><option value="150000">$150K</option></select>
 </label>
-<label for="c-pago">¿Cómo la conseguiste?
-<select id="c-pago"><option value="pago">La pagué (escribo el monto)</option><option value="gratis">Gratis (sorteo u otro motivo)</option></select>
+<label for="c-pago">Precio
+<select id="c-pago"><option value="pago">Pagué</option><option value="gratis">Gratis (sorteo u otro motivo)</option></select>
 </label>
-<label for="c-costo" id="c-costo-l">Lo que pagaste (USD, más de $10)
+<label for="c-costo" id="c-costo-l">Lo que pagaste (USD)
 <input id="c-costo" type="number" inputmode="decimal" min="10.01" step="any" required>
 </label>
 <label for="c-fecha">Fecha
