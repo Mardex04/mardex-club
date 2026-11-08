@@ -151,8 +151,8 @@
     l.appendChild(el("div", "s", m.fecha || (m.created_at || "").slice(0, 10))); d.appendChild(l);
     if (mine) {
       var x = el("button", "btn", "Borrar"); x.type = "button";
-      x.addEventListener("click", function () { if (!confirm("¿Borrar este movimiento?")) return; x.disabled = true; sb.from("movimientos").delete().eq("id", m.id).then(reload); });
-      d.appendChild(x);
+      dosPasos(x, "Seguro: borrar", function () { x.disabled = true; sb.from("movimientos").delete().eq("id", m.id).then(reload); });
+      if (reciente(m)) d.appendChild(x);
     }
     if (m.comprobante_path) {
       var img = el("img", "thumb"); img.alt = "Comprobante"; d.appendChild(img);
@@ -164,6 +164,7 @@
   /* ---------- CUENTAS ---------- */
   S.cuentas = [];
   var CU = { per: "mes", ver: "eval" };
+  var DIA = 24 * 3600 * 1000;
   function hoy() { return new Date().toISOString().slice(0, 10); }
   function perStart(p) {
     var d = new Date(); d.setHours(0, 0, 0, 0);
@@ -175,6 +176,14 @@
   function mvFecha(m) { return new Date((m.fecha || (m.created_at || "").slice(0, 10)) + "T00:00:00"); }
   function chk(r) { if (r && r.error) throw r.error; return r; }
   function bad(t) { var e = new Error(t); e.mine = t; return Promise.reject(e); }
+  function reciente(x) { return x.created_at && (Date.now() - new Date(x.created_at).getTime()) < DIA; }
+  function dosPasos(b, txt, fn) {
+    var asked = false, orig = b.textContent;
+    b.addEventListener("click", function () {
+      if (!asked) { asked = true; b.textContent = txt; setTimeout(function () { asked = false; b.textContent = orig; }, 6000); return; }
+      fn();
+    });
+  }
   function subir(f) {
     var ext = (f.name.split(".").pop() || "jpg").replace(/[^a-z0-9]/gi, "").toLowerCase().slice(0, 5) || "jpg";
     var path = S.uid + "/" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "." + ext;
@@ -183,6 +192,10 @@
   function miniForm(fields, submitTxt, onSubmit) {
     var f = el("form", "add cu-form"), refs = {};
     fields.forEach(function (x) {
+      if (x.t === "checkbox") {
+        var cl = el("label", "full check"), ci = el("input"); ci.type = "checkbox"; ci.required = true;
+        cl.appendChild(ci); cl.appendChild(el("span", "", x.l)); f.appendChild(cl); refs[x.k] = ci; return;
+      }
       var l = el("label", "full", x.l), i = el("input"); i.type = x.t; if (x.req) i.required = true;
       if (x.step) { i.step = "any"; i.min = "0"; i.setAttribute("inputmode", "decimal"); }
       if (x.acc) i.accept = x.acc; if (x.v) i.value = x.v; l.appendChild(i); f.appendChild(l); refs[x.k] = i;
@@ -206,14 +219,15 @@
       var p = a > 0 ? subir(f).then(function (path) {
         return sb.from("movimientos").insert({ user_id: S.uid, tipo: "inv", monto: a, nota: "Activación · " + c.empresa + " " + usd(c.tamano), fecha: r.d.value, comprobante_path: path, cuenta_id: c.id });
       }).then(chk) : Promise.resolve();
-      return p.then(function () { return sb.from("cuentas").update({ estado: "funded", funded_fecha: r.d.value }).eq("id", c.id); }).then(chk);
+      return p.then(function () { return sb.from("cuentas").update({ estado: "funded", funded_fecha: r.d.value }).eq("id", c.id); }).then(chk).then(function () { CU.ver = "funded"; });
     });
   }
   function formRetiro(c) {
     return miniForm([
       { k: "m", l: "Monto retirado en USD", t: "number", step: 1, req: 1 },
       { k: "d", l: "Fecha", t: "date", req: 1, v: hoy() },
-      { k: "f", l: "Captura del certificado del retiro", t: "file", acc: "image/*", req: 1 }
+      { k: "f", l: "Captura del certificado del retiro", t: "file", acc: "image/*", req: 1 },
+      { k: "ok", l: "Confirmo que el certificado es real y que el monto es el que retiré.", t: "checkbox" }
     ], "Guardar retiro", function (r) {
       var m = Number(r.m.value), f = r.f.files[0];
       if (!(m > 0)) return bad("Poné el monto del retiro.");
@@ -229,19 +243,31 @@
     S.movs.forEach(function (x) { if (x.cuenta_id === c.id) { if (x.tipo === "inv") i += Number(x.monto); else r += Number(x.monto); } });
     d.appendChild(el("div", "t", c.empresa + " · " + usd(c.tamano)));
     d.appendChild(el("div", "s", "Comprada " + c.fecha + " · Invertido " + usd(i) + " · Retirado " + usd(r)));
-    var act = el("div", "cu-act"), slot = el("div");
-    function btn(txt, fn, prim) { var b = el("button", "btn" + (prim ? " primary" : ""), txt); b.type = "button"; b.addEventListener("click", fn); act.appendChild(b); }
+    var act = el("div", "cu-act"), slot = el("div"), note = el("div", "s");
+    function btn(txt, fn, prim) { var b = el("button", "btn" + (prim ? " primary" : ""), txt); b.type = "button"; b.addEventListener("click", fn); act.appendChild(b); return b; }
     if (c.estado === "eval") btn("Pasar a funded", function () { slot.textContent = ""; slot.appendChild(formFunded(c)); }, true);
     if (c.estado === "funded") btn("Hice un retiro", function () { slot.textContent = ""; slot.appendChild(formRetiro(c)); }, true);
-    if (c.estado !== "quemada") btn("La quemé", function () {
-      if (!confirm("¿Marcar esta cuenta como quemada?")) return;
-      sb.from("cuentas").update({ estado: "quemada", quemada_fecha: hoy() }).eq("id", c.id).then(reload);
-    });
-    btn("Borrar", function () {
-      if (!confirm("¿Borrar esta cuenta y sus movimientos? Cambia tu inversión y tu ROI.")) return;
-      sb.from("movimientos").delete().eq("cuenta_id", c.id).then(function () { return sb.from("cuentas").delete().eq("id", c.id); }).then(reload);
-    });
-    d.appendChild(act); d.appendChild(slot);
+    if (c.estado !== "quemada") {
+      var q = btn("La quemé", function () {}, false);
+      dosPasos(q, "Seguro: la quemé (no se deshace)", function () {
+        q.disabled = true;
+        sb.from("cuentas").update({ estado: "quemada", quemada_fecha: hoy() }).eq("id", c.id).then(function (res) {
+          if (res.error) { q.disabled = false; note.textContent = "No se pudo marcar. Probá de nuevo."; return; }
+          CU.ver = "quemada"; return reload();
+        });
+      });
+    }
+    if (c.estado === "eval" && reciente(c)) {
+      var x = btn("Borrar (solo el primer día)", function () {}, false);
+      dosPasos(x, "Seguro: borrar", function () {
+        x.disabled = true;
+        sb.from("movimientos").delete().eq("cuenta_id", c.id).then(function () { return sb.from("cuentas").delete().eq("id", c.id); }).then(function (res) {
+          if (res && res.error) { x.disabled = false; note.textContent = "No se pudo borrar."; return; }
+          return reload();
+        });
+      });
+    }
+    d.appendChild(act); d.appendChild(note); d.appendChild(slot);
     return d;
   }
   function renderCuentas() {
@@ -266,22 +292,34 @@
   $("cu-per").addEventListener("change", function () { CU.per = $("cu-per").value; renderCuentas(); });
   ["eval", "funded", "quemada"].forEach(function (k) { $("cu-t-" + k).addEventListener("click", function () { CU.ver = k; renderCuentas(); }); });
   $("c-fecha").value = hoy();
+  function pagoUI() {
+    var g = $("c-pago").value === "gratis";
+    $("c-costo-l").hidden = g; $("c-costo").required = !g;
+    $("c-file").required = !g; $("c-file-l").firstChild.nodeValue = g ? "Captura (opcional)" : "Captura de la compra";
+    $("c-ok-l").hidden = g; $("c-ok").required = !g;
+  }
+  $("c-pago").addEventListener("change", pagoUI); pagoUI();
   $("cform").addEventListener("submit", function (ev) {
     ev.preventDefault();
-    var f = $("c-file").files[0], msg = $("c-msg"), btn = $("c-save");
-    if (!f) return; if (f.size > 8 * 1024 * 1024) { msg.textContent = "La imagen pesa más de 8 MB."; return; }
-    btn.disabled = true; msg.textContent = "Subiendo…";
-    var cuenta, emp = $("c-emp").value.trim(), tam = Number($("c-tam").value), costo = Number($("c-costo").value), fe = $("c-fecha").value;
-    subir(f).then(function (path) {
+    var gratis = $("c-pago").value === "gratis", f = $("c-file").files[0], msg = $("c-msg"), btn = $("c-save");
+    var emp = $("c-emp").value.trim(), tam = Number($("c-tam").value), costo = gratis ? 0 : Number($("c-costo").value), fe = $("c-fecha").value;
+    if ([25000, 50000, 100000, 150000].indexOf(tam) < 0) { msg.textContent = "Elegí un tamaño de la lista."; return; }
+    if (!gratis && !(costo > 10)) { msg.textContent = "Lo que pagaste tiene que ser más de $10, o elegí Gratis."; return; }
+    if (!gratis && !f) { msg.textContent = "Subí la captura de la compra."; return; }
+    if (f && f.size > 8 * 1024 * 1024) { msg.textContent = "La imagen pesa más de 8 MB."; return; }
+    btn.disabled = true; msg.textContent = "Guardando…";
+    var cuenta;
+    (f ? subir(f) : Promise.resolve(null)).then(function (path) {
       return sb.from("cuentas").insert({ user_id: S.uid, empresa: emp, tamano: tam, costo: costo, estado: "eval", fecha: fe }).select().single().then(function (r) {
         chk(r); cuenta = r.data;
+        if (gratis) return { error: null };
         return sb.from("movimientos").insert({ user_id: S.uid, tipo: "inv", monto: costo, nota: "Eval · " + emp + " " + usd(tam), fecha: fe, comprobante_path: path, cuenta_id: cuenta.id });
       }).then(function (r) { if (r.error) { return sb.from("cuentas").delete().eq("id", cuenta.id).then(function () { throw r.error; }); } });
     }).then(function () {
-      msg.textContent = "Listo, cuenta agregada."; $("cform").reset(); $("c-fecha").value = hoy(); CU.ver = "eval"; return reload();
+      msg.textContent = "Listo, cuenta agregada."; $("cform").reset(); $("c-fecha").value = hoy(); pagoUI(); CU.ver = "eval"; return reload();
     }).catch(function () { msg.textContent = "No se pudo guardar. Probá de nuevo."; }).then(function () { btn.disabled = false; });
   });
-  /* ---------- RANKING ---------- */
+ /* ---------- RANKING ---------- */
   function renderRanking() {
     var pub = S.rank.filter(function (a) { return a.publico; }).sort(function (a, b) { return b.roi - a.roi; });
     var priv = S.rank.filter(function (a) { return !a.publico; });
