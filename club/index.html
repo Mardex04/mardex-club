@@ -133,6 +133,7 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 .authbox label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
 .authbox input{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px;color:var(--fg);font-size:16px;width:100%}
 .logout{background:none;border:0;color:var(--muted);cursor:pointer;font-size:13px;text-decoration:underline;padding:0}
+.pw{position:relative;display:block}.pw input{padding-right:46px}.eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--muted);cursor:pointer;padding:8px;line-height:0;width:auto}.eye svg{width:20px;height:20px}.forgot{align-self:flex-start}.danger{background:none;border:1px solid #c0392b;color:#e5584a;border-radius:8px;padding:10px 14px;cursor:pointer;font-size:14px}.danger:disabled{opacity:.45;cursor:not-allowed}
 .mini{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
 .mini-top{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);font-weight:700}
 .mini-top em{font-style:normal;color:var(--accent)}
@@ -193,7 +194,8 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <form id="aform" autocomplete="on" hidden>
 <label id="l-nombre" hidden>Tu nombre<input id="a-nombre" type="text" maxlength="40" placeholder="Nombre y apellido" autocomplete="name"></label>
 <label id="l-email">Email<input id="a-email" type="email" required autocomplete="email"></label>
-<label id="l-pass">Contraseña (mínimo 8 caracteres)<input id="a-pass" type="password" minlength="8" required autocomplete="current-password"></label>
+<label id="l-pass">Contraseña (mínimo 8 caracteres)<span class="pw"><input id="a-pass" type="password" minlength="8" required autocomplete="current-password"><button class="eye" id="a-eye" type="button" aria-label="Ver contraseña"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></span></label>
+<button class="logout forgot" id="a-forgot" type="button">¿Olvidaste tu contraseña?</button>
 <label id="l-code" hidden>Código del Club<input id="a-code" type="text" placeholder="El que te pasó Mardex" autocomplete="off"></label>
 <div class="actions"><button class="btn primary" type="submit" id="a-go">Entrar</button><span class="msg" id="a-msg" role="status"></span></div>
 </form>
@@ -233,7 +235,6 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <li>Si dejás de ser parte de la comunidad, perdés por completo el acceso a esta página.</li>
 </ul>
 </div>
-<div><button class="logout" id="out2" type="button">Cerrar sesión</button></div>
 </section>
 <section class="panel" id="p-ranking" role="tabpanel" hidden>
 <h2>Ranking</h2>
@@ -357,6 +358,14 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <div class="sec">
 <h3>Mis movimientos</h3>
 <div id="m-list" style="display:flex;flex-direction:column;gap:8px"></div>
+</div>
+<div class="sec">
+<div class="actions"><button class="btn" id="out2" type="button">Cerrar sesión</button></div>
+</div>
+<div class="sec" id="del-sec">
+<h3>Eliminar cuenta</h3>
+<p class="note" id="del-note">Se borran tu perfil, tus cuentas, tus movimientos y tu progreso. No se puede deshacer.</p>
+<div class="actions"><button class="danger" id="del-acc" type="button">Eliminar mi cuenta</button><span class="msg" id="del-msg" role="status"></span></div>
 </div>
 </div>
 </section>
