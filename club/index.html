@@ -176,8 +176,10 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <button type="button" role="tab" data-m="empezar" aria-selected="true">Empezá acá</button>
 <button type="button" role="tab" data-m="material" aria-selected="false">Material</button>
 <button type="button" role="tab" data-m="quizzes" aria-selected="false">Quizzes</button>
+<button type="button" role="tab" data-m="calculadora" aria-selected="false">Calculadora</button>
 <button type="button" role="tab" data-m="ranking" aria-selected="false">Ranking</button>
 <button type="button" role="tab" data-m="sorteo" aria-selected="false">Sorteos</button>
+<button type="button" role="tab" data-m="cuentas" aria-selected="false">Mis cuentas</button>
 </div>
 <div class="mini-body" id="mini-body" role="tabpanel"></div>
 </div>
@@ -219,7 +221,7 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <ol class="steps">
 <li><span>Entrá a <b>Material</b> y mirá los videos y PDFs: cómo operar, explicado desde cero. Marcalos como vistos a medida que avances.</span></li>
 <li><span>Hacé los <b>Quizzes</b> básicos para ver si lo entendiste.</span></li>
-<li><span>Cargá tus compras y retiros en tu perfil para medir tus resultados.</span></li>
+<li><span>Cargá tus evals y cuentas funded en <b>Mis cuentas</b> (dentro de tu perfil) para medir tus resultados.</span></li>
 </ol>
 <div class="actions"><button class="btn primary" type="button" data-go="perfil">Ir a mi perfil</button><button class="btn" type="button" data-go="material">Ir al material</button></div>
 <hr style="border:0;border-top:1px solid var(--fg);opacity:.35;margin:28px 0 0">
@@ -422,6 +424,6 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 <script src="app.js"></script>
 <script src="calculadora.js"></script>
 <script>
-(function(){var T={empezar:["Empezá acá","Tu punto de partida: los primeros pasos si arrancás desde cero y las reglas del Club."],material:["Material","Videos, PDFs y enlaces para aprender desde cero. La metodología que utilizo, siempre arriba de todo. Marcás lo que ya viste."],quizzes:["Quizzes","Más de 50 preguntas para validar lo que aprendés: conceptos básicos, riesgo, psicotrading y repaso de cada PDF. Te dice al instante si acertaste."],ranking:["Ranking","Cargás tus compras de cuentas y tus retiros y comparás tus resultados con los del grupo. Tu perfil puede ser público o privado."],sorteo:["Sorteos","Todos los meses hay un sorteo entre los miembros. Siendo miembro activo ya participás."]};var box=document.getElementById("mini-body");function show(k){document.querySelectorAll("#mini [data-m]").forEach(function(b){b.setAttribute("aria-selected",b.dataset.m===k?"true":"false")});box.innerHTML="";var t=document.createElement("b");t.textContent=T[k][0];var p=document.createElement("p");p.textContent=T[k][1];box.appendChild(t);box.appendChild(p)}document.querySelectorAll("#mini [data-m]").forEach(function(b){b.addEventListener("click",function(){show(b.dataset.m)})});show("empezar")})();
+(function(){var T={empezar:["Empezá acá","Tu punto de partida: los primeros pasos si arrancás desde cero y las reglas del Club."],material:["Material","Videos, PDFs y enlaces para aprender desde cero. La metodología que utilizo, siempre arriba de todo. Marcás lo que ya viste."],quizzes:["Quizzes","Más de 60 preguntas ordenadas en Básico y Avanzado, cada uno con metodología, gestión y psicotrading. Te dice al instante si acertaste."],calculadora:["Calculadora de contratos","Elegís el tamaño de tu cuenta, tu riesgo y tu stop en puntos, y te dice cuántos micros tirar. Con una tabla rápida para tenerla a mano."],ranking:["Ranking","Cargás tus compras de cuentas y tus retiros y comparás tus resultados con los del grupo. Tu perfil puede ser público o privado."],sorteo:["Sorteos","Todos los meses hay un sorteo entre los miembros. Siendo miembro activo ya participás."],cuentas:["Mis cuentas","Cargás tus evals y cuentas funded: ves tu capital gestionado, cuánto invertiste y retiraste, y tu ROI se calcula solo. Pasás cada cuenta de eval a funded o la marcás como quemada."]};var box=document.getElementById("mini-body");function show(k){document.querySelectorAll("#mini [data-m]").forEach(function(b){b.setAttribute("aria-selected",b.dataset.m===k?"true":"false")});box.innerHTML="";var t=document.createElement("b");t.textContent=T[k][0];var p=document.createElement("p");p.textContent=T[k][1];box.appendChild(t);box.appendChild(p)}document.querySelectorAll("#mini [data-m]").forEach(function(b){b.addEventListener("click",function(){show(b.dataset.m)})});show("empezar")})();
 </script>
 </body></html>
