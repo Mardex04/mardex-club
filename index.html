@@ -1,123 +1,141 @@
-    <!doctype html>
+<!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Mardex Trading</title>
 <meta name="description" content="Mardex Trading: mentorías, live trading y comunidad para aprender a operar futuros NQ desde cero.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
-:root{--bg:#0a141c;--surface:#101f2b;--surface-2:#152a39;--line:#1e3547;--fg:#e8eff3;--muted:#8da3b2;--accent:#f0b64a;--accent-ink:#1a1203;--up:#4ade9a;--down:#ff7a7a;
+:root{--bg:#0b0b0c;--panel:#131315;--line:#26262a;--fg:#f2f1ee;--muted:#9b9ba1;--accent:#f0b64a;--accent-ink:#1a1203;
 --f-display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;--f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:dark}
-@media (prefers-color-scheme:light){:root{--bg:#edf1f3;--surface:#fff;--surface-2:#f3f6f8;--line:#d5dee4;--fg:#0a141c;--muted:#526675;--accent:#e0a12f;--up:#0e7a4e;--down:#b83232;color-scheme:light}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.5;padding:20px max(16px,env(safe-area-inset-right,0px)) 56px max(16px,env(safe-area-inset-left,0px))}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55;padding:0 max(20px,env(safe-area-inset-right,0px)) 72px max(20px,env(safe-area-inset-left,0px))}
 a{color:inherit}
-a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.wrap{max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
-header{padding-top:18px;display:flex;flex-direction:column;gap:10px}
-h1{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,7vw,56px);line-height:1.02;margin:0;letter-spacing:-.01em}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:22px 0;gap:16px}
+.bar b{font-family:var(--f-display);font-size:18px;letter-spacing:-.01em}
+.bar nav{display:none;gap:28px;font-size:14px;color:var(--muted)}
+.bar nav a{text-decoration:none}.bar nav a:hover{color:var(--fg)}
+@media(min-width:760px){.bar nav{display:flex}}
+.hero{padding:72px 0 56px}
+.kicker{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 22px}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(40px,8.4vw,92px);line-height:.98;letter-spacing:-.025em;margin:0;max-width:14ch}
 h1 em{font-style:normal;color:var(--accent)}
-.lede{color:var(--muted);margin:0;max-width:52ch}
-.cards{display:grid;gap:16px;grid-template-columns:1fr}
-@media(min-width:760px){.cards{grid-template-columns:repeat(2,1fr)}}
-.sec-t{font-family:var(--f-display);font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:0 0 -18px}
-.only{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#cfe3f5;border:1px solid #2c6aa3;padding:4px 12px;border-radius:99px}
-.card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;text-decoration:none;transition:border-color .15s,transform .15s}
-.card:hover{border-color:var(--accent);transform:translateY(-2px)}
-.card svg{display:block;width:100%;height:auto;background:var(--surface-2);border-bottom:1px solid var(--line)}
-.card .body{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1}
-.card h2{font-family:var(--f-display);font-size:22px;margin:0}
-.card p{margin:0;color:var(--muted);font-size:14px}
-.card .go{margin-top:auto;padding-top:10px;font-weight:600;font-size:14px;color:var(--accent)}
-.tag{align-self:flex-start;font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink);background:var(--accent);padding:2px 8px;border-radius:99px}
-section.contact{border-top:1px solid var(--line);padding-top:24px;display:flex;flex-direction:column;gap:12px}
-section.contact h2{font-family:var(--f-display);font-size:24px;margin:0}
-.soc{display:flex;flex-wrap:wrap;gap:10px;padding:0;margin:0;list-style:none}
-.soc a{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:10px 18px;text-decoration:none;font-weight:600;min-height:44px}
+.lede{color:var(--muted);font-size:clamp(17px,2.2vw,20px);max-width:46ch;margin:28px 0 0}
+.tags{list-style:none;padding:0;margin:34px 0 0;display:flex;flex-wrap:wrap;gap:8px 0;font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tags li+li::before{content:"·";margin:0 14px;color:var(--line)}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:38px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:8px;font-weight:600;text-decoration:none;border:1px solid var(--line);color:var(--fg);background:transparent;font-size:15px;cursor:pointer;font-family:inherit}
+.btn:hover{border-color:var(--accent)}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.pri:hover{filter:brightness(1.06)}
+section{border-top:1px solid var(--line);padding:64px 0}
+h2{font-family:var(--f-display);font-size:clamp(28px,4.4vw,44px);line-height:1.05;letter-spacing:-.02em;margin:0 0 14px}
+.sub{color:var(--muted);margin:0;max-width:56ch}
+/* biografía */
+.bio{display:grid;gap:36px;grid-template-columns:1fr}
+@media(min-width:760px){.bio{grid-template-columns:minmax(0,360px) 1fr;gap:64px;align-items:center}}
+.photo{aspect-ratio:4/5;background:var(--panel);border:1px solid var(--line);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.bio h2{margin-bottom:18px}
+.bio p{margin:0 0 14px;color:#cfcfd2;max-width:52ch;font-size:17px}
+/* ofrezco */
+.rows{margin-top:34px;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:1fr;gap:10px 28px;padding:28px 0;border-bottom:1px solid var(--line);text-decoration:none;align-items:start}
+@media(min-width:760px){.row{grid-template-columns:56px 1.1fr 1.4fr 200px;align-items:center}}
+.row .n{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.row h3{font-family:var(--f-display);font-size:26px;letter-spacing:-.015em;margin:0}
+.row p{margin:0;color:var(--muted);font-size:15px}
+.row .go{font-weight:600;font-size:14px;color:var(--accent);justify-self:start}
+@media(min-width:760px){.row .go{justify-self:end;text-align:right}}
+a.row:hover h3{color:var(--accent)}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:3px 10px;margin-top:8px}
+/* fondeo */
+.firms{display:grid;gap:14px;grid-template-columns:1fr;margin-top:34px}
+@media(min-width:640px){.firms{grid-template-columns:repeat(2,1fr)}}
+.firm{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:18px}
+.firm h3{font-family:var(--f-display);font-size:26px;letter-spacing:-.015em;margin:0}
+.code{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.code span{font-size:13px;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:10px;border:1px dashed var(--accent);border-radius:8px;padding:8px 8px 8px 14px;font-family:var(--f-mono);font-size:15px;color:var(--accent);letter-spacing:.06em}
+.chip button{background:var(--accent);color:var(--accent-ink);border:0;border-radius:5px;font-family:var(--f-body);font-weight:600;font-size:12px;padding:6px 10px;cursor:pointer}
+.firm .btn{width:100%}
+.note{margin-top:20px;font-size:14px;color:var(--muted)}
+.note b{color:var(--fg)}
+/* redes */
+.soc{display:flex;flex-wrap:wrap;gap:10px;padding:0;margin:30px 0 0;list-style:none}
+.soc a{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:0 20px;text-decoration:none;font-weight:600;min-height:48px}
 .soc a:hover{border-color:var(--accent)}
 .soc svg{width:18px;height:18px;fill:currentColor}
-footer{color:var(--muted);font-size:12px}
-.soon{cursor:default}
-.wait{margin:0 16px 16px;display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none;border-radius:8px;padding:12px 16px;min-height:46px;position:relative;z-index:1}
-.wait:hover{filter:brightness(1.05)}
-.soon:hover{border-color:var(--line);transform:none}
-.soon{position:relative}
-.soon svg,.soon .body{filter:grayscale(1);opacity:.45}
-.soon-tag{position:absolute;top:12px;right:12px;z-index:1;font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;background:#2a3b49;color:#e8eff3;padding:4px 10px;border-radius:99px}
-.club{background:#0f3a5f;border-color:#1d5688;align-items:center;justify-content:center;text-align:center;min-height:150px;padding:28px 24px;gap:14px}
-.club:hover{border-color:var(--accent)}
-.mark{font-family:var(--f-display);font-weight:700;font-size:clamp(40px,9vw,56px);line-height:1;letter-spacing:-.01em;color:#fff}
-.mark em{font-style:normal;color:#f0b64a}
-.enter{font-weight:600;font-size:14px;color:#cfe3f5}
-[hidden]{display:none!important}
-.liveb svg{filter:blur(4px);clip-path:inset(0)}
-.liveb .body{filter:none;opacity:1}
-.soon-big{position:absolute;left:0;right:0;top:0;aspect-ratio:320/180;box-sizing:border-box;border-bottom:1px solid var(--line);z-index:2;display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-weight:700;font-size:clamp(28px,6vw,36px);color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.7);letter-spacing:.01em;pointer-events:none}
-.dc{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:16px 20px;text-decoration:none;font-weight:600;min-height:56px}
+.dc{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:20px 24px;text-decoration:none;font-weight:600}
 .dc:hover{border-color:var(--accent)}
 .dc span:last-child{color:var(--accent)}
+[hidden]{display:none!important}
 </style></head><body>
 <div class="wrap">
-<header>
-  <h1>Mardex <em>Trading</em></h1>
-  <p class="lede">Opero el Nasdaq (NQ) en futuros y te enseño cómo hacerlo. Mentorías 1 a 1, live trading y una comunidad con material y quizzes para aprender junto a otros traders.</p>
+
+<div class="bar"><b>Mardex Trading</b>
+  <nav><a href="#sobre-mi">Sobre mí</a><a href="#ofrezco">Lo que ofrezco</a><a href="#fondeo">Fondeo</a><a href="#redes">Redes</a></nav>
+  <a class="btn" style="min-height:40px;padding:0 16px;font-size:14px" href="https://mardextrading.com/club/">Soy alumno</a>
+</div>
+
+<header class="hero">
+  <p class="kicker">Trader de futuros · Nasdaq (NQ)</p>
+  <h1>Aprendé a operar futuros con <em>un método claro</em>.</h1>
+  <p class="lede">Opero el Nasdaq en futuros y te enseño cómo hacerlo, paso a paso.</p>
+  <ul class="tags"><li>Mentorías 1 a 1</li><li>Live trading</li><li>Mardex Club</li></ul>
+  <div class="cta"><a class="btn pri" href="https://mardextrading.com/mentorias/">Quiero ser alumno</a><a class="btn" href="#ofrezco">Ver lo que ofrezco</a></div>
 </header>
 
-<h2 class="sec-t">Servicios</h2>
-<main class="cards">
-  <a class="card" href="mentorias/" aria-label="Mentorías, más información">
-    <svg viewBox="0 0 320 180" role="img" aria-label="Ilustración de una videollamada de mentoría con un gráfico">
-      <rect x="22" y="20" width="276" height="140" rx="10" fill="none" stroke="var(--line)" stroke-width="2"/>
-      <rect x="22" y="20" width="276" height="22" rx="10" fill="var(--line)"/>
-      <circle cx="38" cy="31" r="3.5" fill="var(--down)"/><circle cx="50" cy="31" r="3.5" fill="var(--accent)"/><circle cx="62" cy="31" r="3.5" fill="var(--up)"/>
-      <polyline points="40,128 78,112 112,120 150,88 188,98 226,66 262,52" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
-      <circle cx="262" cy="52" r="5" fill="var(--accent)"/>
-      <rect x="44" y="140" width="64" height="8" rx="4" fill="var(--line)"/><rect x="116" y="140" width="40" height="8" rx="4" fill="var(--line)"/>
-      <circle cx="262" cy="136" r="13" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
-      <circle cx="262" cy="132" r="4" fill="var(--accent)"/><path d="M254 144a8 7 0 0 1 16 0" fill="var(--accent)"/>
-    </svg>
-    <div class="body"><h2>Mentorías</h2><p>Clases 1 a 1 para aprender la metodología que utilizo, paso a paso, con seguimiento y feedback sobre tus operaciones.</p><span class="go">Más información →</span></div>
-  </a>
-
-  <div class="card soon liveb" aria-label="Live trading, próximamente"><span class="soon-big">Próximamente</span>
-    <svg viewBox="0 0 320 180" role="img" aria-label="Ilustración de velas de un gráfico en vivo">
-      <g stroke-width="2.5" stroke-linecap="round">
-        <line x1="40" y1="70" x2="40" y2="130" stroke="var(--down)"/><rect x="33" y="84" width="14" height="30" rx="2" fill="var(--down)"/>
-        <line x1="76" y1="92" x2="76" y2="148" stroke="var(--down)"/><rect x="69" y="104" width="14" height="30" rx="2" fill="var(--down)"/>
-        <line x1="112" y1="80" x2="112" y2="140" stroke="var(--up)"/><rect x="105" y="92" width="14" height="36" rx="2" fill="var(--up)"/>
-        <line x1="148" y1="60" x2="148" y2="116" stroke="var(--up)"/><rect x="141" y="70" width="14" height="32" rx="2" fill="var(--up)"/>
-        <line x1="184" y1="66" x2="184" y2="108" stroke="var(--down)"/><rect x="177" y="74" width="14" height="22" rx="2" fill="var(--down)"/>
-        <line x1="220" y1="44" x2="220" y2="100" stroke="var(--up)"/><rect x="213" y="52" width="14" height="38" rx="2" fill="var(--up)"/>
-        <line x1="256" y1="30" x2="256" y2="84" stroke="var(--up)"/><rect x="249" y="38" width="14" height="34" rx="2" fill="var(--up)"/>
-        <line x1="292" y1="24" x2="292" y2="70" stroke="var(--up)"/><rect x="285" y="30" width="14" height="28" rx="2" fill="var(--up)"/>
-      </g>
-      <line x1="20" y1="158" x2="300" y2="158" stroke="var(--line)" stroke-width="2"/>
-      <rect x="20" y="14" width="86" height="22" rx="11" fill="#16a34a"/><circle cx="34" cy="25" r="4" fill="#fff"/>
-      <text x="44" y="29" font-family="IBM Plex Mono,monospace" font-size="11" font-weight="600" fill="#fff">EN VIVO</text>
-    </svg>
-    <div class="body"><h2>Live trading</h2><p>Mirá cómo opero la apertura de Nueva York y Asia en directo, con las decisiones explicadas en tiempo real.</p></div>
-    <a class="wait" href="live/">Anotarme en la lista de espera →</a>
+<section id="sobre-mi">
+  <div class="bio">
+    <div class="photo" id="foto"><img src="data:image/webp;base64,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" alt="Marcos, Mardex Trading" width="360" height="450"></div>
+    <div>
+      <h2>Hola, soy Marcos (Mardex).</h2>
+      <p>Un trader uruguayo de 22 años.</p>
+      <p>Empecé en el trading en febrero del 2023, pensando que era plata fácil, hasta que me choqué con la realidad.</p>
+      <p>Perdí mucho tiempo y dinero, pero después de casi 3 años y medio hice el último ajuste que me permitió ver resultados de forma constante.</p>
+      <p>Ahora busco escalar esos resultados y enseñarle a mis alumnos todo lo que aprendí, para que no tengan que pasar por lo mismo que pasé yo.</p>
+    </div>
   </div>
-
-  
-</main>
-
-<a class="card club" href="club/" aria-label="Mardex Club, solo para alumnos">
-    <span class="mark"><span>Mardex</span> <em>Club</em></span>
-    <span class="only">Solo para alumnos</span>
-  </a>
-
-<section class="contact" id="contacto" hidden>
-  <h2>Contacto y redes</h2>
-  <p class="lede">Escribime por cualquiera de estas redes y te respondo.</p>
-  <ul class="soc" id="soc"></ul>
 </section>
 
-<a class="dc" href="https://discord.gg/2vmZpBdqVJ" target="_blank" rel="noopener"><span>Comunidad de Discord</span><span>Unirme →</span></a>
+<section id="ofrezco">
+  <h2>Lo que ofrezco</h2>
+  <p class="sub">Esto es lo que ofrezco, y para quién es cada cosa.</p>
+  <div class="rows">
+    <a class="row" href="https://mardextrading.com/mentorias/"><span class="n">01</span><h3>Mentorías</h3><p>Así aprendés a operar conmigo: clases 1 a 1, seguimiento y feedback sobre tus operaciones. Incluye el live trading.</p><span class="go">Más información →</span></a>
+    <a class="row" href="https://mardextrading.com/live/"><span class="n">02</span><div><h3>Live trading</h3><span class="pill">Próximamente</span></div><p>Servicio aparte: me mirás operar en vivo la apertura de Nueva York y Asia, con cada decisión explicada.</p><span class="go">Anotarme en la lista de espera →</span></a>
+    <a class="row" href="https://mardextrading.com/club/"><span class="n">03</span><div><h3>Mardex Club</h3><span class="pill">Solo para alumnos</span></div><p>Para mis alumnos: material, quizzes, calculadora, seguimiento de tu trading, ranking y sorteos.</p><span class="go">Entrar al Club →</span></a>
+  </div>
+</section>
 
-<footer>© Mardex Trading</footer>
+<section id="fondeo">
+  <h2>Empresas con las que estoy afiliado</h2>
+  <p class="sub">Estas son las empresas de fondeo con las que trabajo. Si vas a comprar una cuenta, entrá con mi link.</p>
+  <p class="note"><b>Importante:</b> al pagar, escribí el código <b>MARDEX</b>. Sin el código no se aplica el descuento.</p>
+  <div class="firms" id="firms"></div>
+</section>
+
+<section id="redes">
+  <h2>Redes</h2>
+  <p class="sub">Escribime por cualquiera de estas redes y te respondo.</p>
+  <ul class="soc" id="soc"></ul>
+  <a class="dc" href="https://discord.gg/2vmZpBdqVJ" target="_blank" rel="noopener"><span>Comunidad de Discord</span><span>Unirme →</span></a>
+</section>
+
 </div>
 <script>
-/* Para agregar o cambiar una red, editá solo esta lista. Las que tengan url vacía no se muestran. */
+/* Afiliados: para cambiar un link, editá solo la propiedad "u". */
+var FIRMS = [
+  { n: "Alpha Futures",     u: "https://app.alpha-futures.com/signup/MARDEX/" },
+  { n: "Top One Futures",   u: "https://toponefutures.com/?linkId=lp_707970&sourceId=mardex&tenantId=toponefutures" },
+  { n: "The5ers",           u: "https://www.the5ers.com/?afmc=1gy9" },
+  { n: "NYS Markets",       u: "https://nysmarkets.com?cxd=Mardex" }
+];
+var CODIGO = "MARDEX";
+/* Redes: las que tengan url vacía no se muestran. */
 var REDES = [
   { n: "Instagram", u: "https://www.instagram.com/mardex_trading/", i: "M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 4 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z" },
   { n: "YouTube",   u: "https://www.youtube.com/@MardexTrading", i: "M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2C.5 9.1.5 12 .5 12s0 2.9.5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-4.8.5-4.8s0-2.9-.5-4.8zM9.8 15.4V8.6l5.9 3.4z" },
@@ -125,16 +143,28 @@ var REDES = [
   { n: "Kick",      u: "https://kick.com/mardextrading", i: "M3 2h5v6h2l4-6h6l-5.500 8L20 18h-6l-4-6H8v6H3z" }
 ];
 (function () {
-  var ul = document.getElementById("soc"), any = false;
+  var box = document.getElementById("firms");
+  FIRMS.forEach(function (f) {
+    var d = document.createElement("div"); d.className = "firm";
+    d.innerHTML = '<h3></h3><div class="code"><span>Código</span><span class="chip"><span class="cv"></span><button type="button">Copiar</button></span></div><a class="btn pri" target="_blank" rel="noopener sponsored"></a>';
+    d.querySelector("h3").textContent = f.n;
+    d.querySelector(".cv").textContent = CODIGO;
+    var a = d.querySelector("a"); a.href = f.u; a.textContent = "Ir a " + f.n + " →";
+    var b = d.querySelector("button");
+    b.addEventListener("click", function () {
+      function ok() { b.textContent = "Copiado"; setTimeout(function () { b.textContent = "Copiar"; }, 1800); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(CODIGO).then(ok, ok); else ok();
+    });
+    box.appendChild(d);
+  });
+  var ul = document.getElementById("soc");
   REDES.forEach(function (r) {
-    if (!r.u) return; any = true;
+    if (!r.u) return;
     var li = document.createElement("li"), a = document.createElement("a");
     a.href = r.u; a.target = "_blank"; a.rel = "noopener";
     a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + r.i + '"/></svg><span>' + r.n + "</span>";
     li.appendChild(a); ul.appendChild(li);
   });
-  if (any) document.getElementById("contacto").hidden = false;
-  else document.querySelectorAll('a[href="#contacto"]').forEach(function (a) { a.removeAttribute("href"); a.style.cursor = "default"; });
 })();
 </script>
 </body></html>
