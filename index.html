@@ -5,11 +5,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
-:root{--bg:#0a0d12;--panel:#10161e;--line:#202a36;--fg:#f1efe9;--muted:#9aa3ad;--accent:#d9c8a4;--accent-ink:#17130a;--sky:#86b4e6;
+:root{--bg:#0a0d12;--panel:#10161e;--line:#202a36;--fg:#f1efe9;--muted:#9aa3ad;--accent:#f0b64a;--accent-ink:#1a1203;--sky:#86b4e6;
 --f-display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;--f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(900px 520px at 88% -8%,rgba(100,155,220,.17),transparent 62%),radial-gradient(760px 460px at -5% 42%,rgba(217,200,164,.07),transparent 60%),var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55;padding:0 max(20px,env(safe-area-inset-right,0px)) 72px max(20px,env(safe-area-inset-left,0px))}
+body{margin:0;background:radial-gradient(900px 520px at 88% -8%,rgba(100,155,220,.17),transparent 62%),radial-gradient(760px 460px at -5% 42%,rgba(240,182,74,.07),transparent 60%),var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55;padding:0 max(20px,env(safe-area-inset-right,0px)) 72px max(20px,env(safe-area-inset-left,0px))}
 a{color:inherit}
 a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .wrap{max-width:1040px;margin:0 auto}
@@ -57,7 +57,8 @@ a.row:hover h3{color:var(--accent)}
 .firm{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:18px}
 .firm h3{font-family:var(--f-display);font-size:26px;letter-spacing:-.015em;margin:0}
 .fh{display:flex;align-items:center;gap:14px}
-.mono{width:44px;height:44px;border-radius:10px;background:#16202c;border:1px solid var(--line);color:var(--sky);font-family:var(--f-display);font-weight:700;font-size:18px;display:grid;place-items:center;flex:none}
+.mono{width:44px;height:44px;border-radius:10px;background:#f1efe9;border:1px solid var(--line);display:grid;place-items:center;flex:none;overflow:hidden}
+.mono img{width:28px;height:28px;object-fit:contain;display:block}
 .code{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .code span{font-size:13px;color:var(--muted)}
 .chip{display:inline-flex;align-items:center;gap:10px;border:1px dashed var(--accent);border-radius:8px;padding:8px 8px 8px 14px;font-family:var(--f-mono);font-size:15px;color:var(--accent);letter-spacing:.06em}
@@ -84,7 +85,7 @@ a.row:hover h3{color:var(--accent)}
 
 <header class="hero">
   <p class="kicker">Trader de futuros · Nasdaq (NQ)</p>
-  <h1>Aprendé a operar futuros con un método claro.</h1>
+  <h1>Aprendé a operar Futuros con un método claro.</h1>
   <p class="lede">Opero el Nasdaq en futuros y te enseño cómo hacerlo, paso a paso.</p>
   <ul class="tags"><li>Mentorías 1 a 1</li><li>Live trading</li><li>Mardex Club</li></ul>
 </header>
@@ -95,8 +96,8 @@ a.row:hover h3{color:var(--accent)}
     <div>
       <h2>Hola, soy Marcos (Mardex).</h2>
       <p>Un trader uruguayo de 22 años.</p>
-      <p>Empecé en el trading en febrero del 2023, pensando que era plata fácil, hasta que me choqué con la realidad.</p>
-      <p>Perdí mucho tiempo y dinero, pero después de casi 3 años y medio hice el último ajuste que me permitió ver resultados de forma constante.</p>
+      <p>Empecé en el trading en febrero del 2023, pensando que sería plata fácil, hasta que me choqué con la realidad.</p>
+      <p>Perdí mucho tiempo y dinero, pero después de casi 3 años y medio hice el último ajuste que me permitió ver resultados de forma consistente.</p>
       <p>Ahora busco escalar esos resultados y enseñarle a mis alumnos todo lo que aprendí, para que no tengan que pasar por lo mismo que pasé yo.</p>
     </div>
   </div>
@@ -106,8 +107,8 @@ a.row:hover h3{color:var(--accent)}
   <h2>Lo que ofrezco</h2>
   <p class="sub">Esto es lo que ofrezco, y para quién es cada cosa.</p>
   <div class="rows">
-    <a class="row" href="https://mardextrading.com/mentorias/"><span class="n">01</span><h3>Mentorías</h3><p>Así aprendés a operar conmigo: clases 1 a 1, seguimiento y feedback sobre tus operaciones. Incluye el live trading.</p><span class="go">Más información →</span></a>
-    <a class="row" href="https://mardextrading.com/live/"><span class="n">02</span><div><h3>Live trading</h3><span class="pill">Próximamente</span></div><p>Servicio aparte: me mirás operar en vivo la apertura de Nueva York y Asia, con cada decisión explicada.</p><span class="go">Anotarme en la lista de espera →</span></a>
+    <a class="row" href="https://mardextrading.com/mentorias/"><span class="n">01</span><h3>Mentorías</h3><p>Aprendé a operar conmigo. Clases 1 a 1, seguimiento y feedback sobre tus operaciones. Incluye Mardex Club y Live trading.</p><span class="go">Más información →</span></a>
+    <a class="row" href="https://mardextrading.com/live/"><span class="n">02</span><div><h3>Live trading</h3><span class="pill">Próximamente</span></div><p>Operativa en directo: me ves operar en vivo la apertura de Nueva York y de Asia, junto a los alumnos, con cada decisión y entrada explicada al 100%.</p><span class="go">Anotarme en la lista de espera →</span></a>
     <a class="row" href="https://mardextrading.com/club/"><span class="n">03</span><div><h3>Mardex Club</h3><span class="pill">Solo para alumnos</span></div><p>Para mis alumnos: material, quizzes, calculadora, seguimiento de tu trading, ranking y sorteos.</p><span class="go">Entrar al Club →</span></a>
   </div>
 </section>
@@ -136,10 +137,10 @@ a.row:hover h3{color:var(--accent)}
 <script>
 /* Afiliados: para cambiar un link, editá solo la propiedad "u". */
 var FIRMS = [
-  { n: "Alpha Futures", m: "A",   u: "https://app.alpha-futures.com/signup/MARDEX/" },
-  { n: "Top One Futures", m: "T1", u: "https://toponefutures.com/?linkId=lp_707970&sourceId=mardex&tenantId=toponefutures" },
-  { n: "The5ers", m: "5",  u: "https://www.the5ers.com/?afmc=1gy9" },
-  { n: "NYS Markets", m: "N",  u: "https://nysmarkets.com?cxd=Mardex" }
+  { n: "Alpha Futures", d: "alpha-futures.com", u: "https://app.alpha-futures.com/signup/MARDEX/" },
+  { n: "Top One Futures", d: "toponefutures.com", u: "https://toponefutures.com/?linkId=lp_707970&sourceId=mardex&tenantId=toponefutures" },
+  { n: "The5ers", d: "the5ers.com", u: "https://www.the5ers.com/?afmc=1gy9" },
+  { n: "NYS Markets", d: "nysmarkets.com", u: "https://nysmarkets.com?cxd=Mardex" }
 ];
 var CODIGO = "MARDEX";
 /* Redes: las que tengan url vacía no se muestran. */
@@ -154,7 +155,7 @@ var REDES = [
   FIRMS.forEach(function (f) {
     var d = document.createElement("div"); d.className = "firm";
     d.innerHTML = '<div class="fh"><span class="mono"></span><h3></h3></div><div class="code"><span>Código</span><span class="chip"><span class="cv"></span><button type="button">Copiar</button></span></div><a class="btn pri" target="_blank" rel="noopener sponsored"></a>';
-    d.querySelector("h3").textContent = f.n; d.querySelector(".mono").textContent = f.m;
+    d.querySelector("h3").textContent = f.n; var im = document.createElement("img"); im.src = "https://www.google.com/s2/favicons?domain=" + f.d + "&sz=128"; im.alt = ""; im.width = 28; im.height = 28; im.referrerPolicy = "no-referrer"; d.querySelector(".mono").appendChild(im);
     d.querySelector(".cv").textContent = CODIGO;
     var a = d.querySelector("a"); a.href = f.u; a.textContent = "Ir a " + f.n + " →";
     var b = d.querySelector("button");
