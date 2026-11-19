@@ -68,9 +68,15 @@ a.row:hover h3{color:var(--accent)}
 .note b{color:var(--fg)}
 /* redes */
 .soc{display:flex;flex-wrap:wrap;gap:10px;padding:0;margin:30px 0 0;list-style:none}
-.soc a{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:0 20px;text-decoration:none;font-weight:600;min-height:48px}
+.soc a{display:inline-flex;align-items:center;gap:12px;border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:0 22px 0 7px;text-decoration:none;font-weight:600;min-height:48px}
 .soc a:hover{border-color:var(--accent)}
+.soc .ic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none}
 .soc svg{width:18px;height:18px;fill:currentColor}
+.tst{display:grid;gap:14px;grid-template-columns:1fr;margin-top:34px}
+@media(min-width:760px){.tst{grid-template-columns:repeat(2,1fr)}}
+.tst figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px}
+.tst blockquote{margin:0 0 14px;color:#dcdcdf;font-size:16px}
+.tst figcaption{color:var(--muted);font-size:14px;font-weight:600}
 .dc{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:20px 24px;text-decoration:none;font-weight:600}
 .dc:hover{border-color:var(--accent)}
 .dc span:last-child{color:var(--accent)}
@@ -127,6 +133,11 @@ a.row:hover h3{color:var(--accent)}
   <a class="dc" href="https://discord.gg/2vmZpBdqVJ" target="_blank" rel="noopener"><span>Comunidad de Discord</span><span>Unirme →</span></a>
 </section>
 
+<section id="testimonios" hidden>
+  <h2>Lo que dicen mis alumnos</h2>
+  <div class="tst" id="tst"></div>
+</section>
+
 <section id="empezar">
   <h2>¿Querés empezar?</h2>
   <p class="sub">Escribime por Instagram para coordinar día y hora.</p>
@@ -145,10 +156,10 @@ var FIRMS = [
 var CODIGO = "MARDEX";
 /* Redes: las que tengan url vacía no se muestran. */
 var REDES = [
-  { n: "Instagram", u: "https://www.instagram.com/mardex_trading/", i: "M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 4 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z" },
-  { n: "YouTube",   u: "https://www.youtube.com/@MardexTrading", i: "M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2C.5 9.1.5 12 .5 12s0 2.9.5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-4.8.5-4.8s0-2.9-.5-4.8zM9.8 15.4V8.6l5.9 3.4z" },
-  { n: "TikTok",    u: "https://www.tiktok.com/@mardex_trading.2", i: "M16.6 2h-3.2v13.4a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9.3a6.2 6.2 0 1 0 5.2 6.1V8.7a8 8 0 0 0 4.6 1.5V7a4.8 4.8 0 0 1-4.6-5z" },
-  { n: "Kick",      u: "https://kick.com/mardextrading", i: "M3 2h5v6h2l4-6h6l-5.500 8L20 18h-6l-4-6H8v6H3z" }
+  { n: "Instagram", h: "@mardex_trading", c: "linear-gradient(45deg,#f9a03c,#e1306c 55%,#833ab4)", k: "#fff", u: "https://www.instagram.com/mardex_trading/", i: "M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 4 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z" },
+  { n: "YouTube", h: "@MardexTrading", c: "#ff0033", k: "#fff", u: "https://www.youtube.com/@MardexTrading", i: "M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2C.5 9.1.5 12 .5 12s0 2.9.5 4.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-4.8.5-4.8s0-2.9-.5-4.8zM9.8 15.4V8.6l5.9 3.4z" },
+  { n: "TikTok", h: "@mardex_trading.2", c: "linear-gradient(135deg,#25f4ee,#fe2c55)", k: "#0a0d12", u: "https://www.tiktok.com/@mardex_trading.2", i: "M16.6 2h-3.2v13.4a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9.3a6.2 6.2 0 1 0 5.2 6.1V8.7a8 8 0 0 0 4.6 1.5V7a4.8 4.8 0 0 1-4.6-5z" },
+  { n: "Kick", h: "mardextrading", c: "#53fc18", k: "#0a0d12", u: "https://kick.com/mardextrading", i: "M3 2h5v6h2l4-6h6l-5.500 8L20 18h-6l-4-6H8v6H3z" }
 ];
 (function () {
   var box = document.getElementById("firms");
@@ -170,9 +181,21 @@ var REDES = [
     if (!r.u) return;
     var li = document.createElement("li"), a = document.createElement("a");
     a.href = r.u; a.target = "_blank"; a.rel = "noopener";
-    a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + r.i + '"/></svg><span>' + r.n + "</span>";
+    a.setAttribute("aria-label", r.n + " " + r.h); a.innerHTML = '<span class="ic" style="background:' + r.c + ';color:' + r.k + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + r.i + '"/></svg></span><span>' + r.h + "</span>";
     li.appendChild(a); ul.appendChild(li);
   });
+})();
+/* Testimonios: agregá objetos { t: "texto", n: "Nombre" }. Si está vacío, la sección no se muestra. */
+var TESTIMONIOS = [];
+(function () {
+  if (!TESTIMONIOS.length) return;
+  var box = document.getElementById("tst");
+  TESTIMONIOS.forEach(function (x) {
+    var f = document.createElement("figure"), q = document.createElement("blockquote"), c = document.createElement("figcaption");
+    q.textContent = "“" + x.t + "”"; c.textContent = x.n;
+    f.appendChild(q); f.appendChild(c); box.appendChild(f);
+  });
+  document.getElementById("testimonios").hidden = false;
 })();
 </script>
 </body></html>
