@@ -169,18 +169,14 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 
 /* pantallas grandes */
 @media (min-width: 900px) {
-  .wrap { max-width: 1120px; }
+  .wrap { max-width: 960px; margin-left: auto; margin-right: auto; }
   body { font-size: 16px; }
   #mods, #quiz-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; align-items: start; }
   #quiz-list { gap: 18px 32px; }
-  #p-empezar, #p-ranking, #p-sorteo { width: 100%; max-width: none; align-self: stretch; font-size: 17px; line-height: 1.6; }
-  #p-calculadora, #p-perfil, #p-cuentas { width: 100%; max-width: 980px; align-self: flex-start; }
+  #p-empezar, #p-calculadora, #p-perfil, #p-cuentas, #p-ranking, #p-sorteo { width: 100%; max-width: none; align-self: stretch; }
 }
 @media (min-width: 1400px) {
-  .wrap { max-width: 1280px; }
-}
-@media (min-width: 1800px) {
-  .wrap { max-width: 1440px; }
+  .wrap { max-width: 1040px; }
 }
 </style></head><body>
 <div class="auth" id="auth" hidden>
