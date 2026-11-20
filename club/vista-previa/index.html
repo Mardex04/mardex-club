@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Qué hay en el Mardex Club</title>
+<title>Vista previa del Mardex Club</title>
 <meta name="description" content="Mirá qué hay adentro del Mardex Club, la comunidad de alumnos de Mardex Trading, y cómo entrar.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
 :root{--bg:#0a141c;--surface:#101f2b;--surface-2:#152a39;--line:#1e3547;--fg:#e8eff3;--muted:#8da3b2;--accent:#f0b64a;--accent-ink:#1a1203;
---f-display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;--f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:dark}
+--f-display:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:dark}
 @media (prefers-color-scheme:light){:root{--bg:#edf1f3;--surface:#fff;--surface-2:#f3f6f8;--line:#d5dee4;--fg:#0a141c;--muted:#526675;--accent:#e0a12f;color-scheme:light}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.5;padding:20px max(16px,env(safe-area-inset-right,0px)) 56px max(16px,env(safe-area-inset-left,0px))}
@@ -18,6 +18,9 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 h1{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,7vw,50px);line-height:1.05;margin:0}
 h1 em{font-style:normal;color:var(--accent)}
 h2{font-family:var(--f-display);font-size:20px;margin:0}
+.vp{display:inline-block;font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent);border-radius:99px;padding:5px 12px;margin-bottom:14px;font-weight:500}
+.vpbox{display:flex;flex-direction:column;gap:4px;border:1px dashed var(--accent);background:var(--surface);border-radius:12px;padding:14px 16px}
+.vpbox span{color:var(--muted);font-size:14px}
 .lede{color:var(--muted);margin:0}
 .note{font-size:13px;color:var(--muted);margin:0}
 ul.inc{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
@@ -40,9 +43,11 @@ ol.steps span{color:var(--muted);font-size:14px}
 <div class="wrap">
   <a class="back" href="../../">← Mardex Trading</a>
   <div>
+    <span class="vp">Vista previa</span>
     <h1>Mardex <em>Club</em></h1>
     <p class="lede" style="margin-top:10px">Un lugar para aprender y estar en contacto con otros traders. Es para los alumnos de la mentoría.</p>
   </div>
+  <div class="vpbox"><b>Esto es una vista previa del Club.</b><span>Todavía no tenés cuenta, así que acá ves qué hay adentro y cómo se entra. Para usar el Club tenés que ser alumno.</span></div>
 
   <h2>Qué hay adentro</h2>
   <ul class="inc">
