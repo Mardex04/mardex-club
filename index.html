@@ -17,10 +17,10 @@
 <meta name="twitter:image" content="https://mardextrading.com/og.png">
 <meta name="description" content="Mardex Trading: mentorías, live trading y comunidad para aprender a operar futuros NQ desde cero.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
 :root{--bg:#0a0d12;--panel:#10161e;--line:#202a36;--fg:#f1efe9;--muted:#9aa3ad;--accent:#f0b64a;--accent-ink:#1a1203;--sky:#86b4e6;
---f-display:"Bricolage Grotesque","Arial Narrow",system-ui,sans-serif;--f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:dark}
+--f-display:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:radial-gradient(900px 520px at 88% -8%,rgba(100,155,220,.17),transparent 62%),radial-gradient(760px 460px at -5% 42%,rgba(240,182,74,.07),transparent 60%),var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55;padding:0 max(20px,env(safe-area-inset-right,0px)) 72px max(20px,env(safe-area-inset-left,0px))}
@@ -96,6 +96,8 @@ a.row:hover h3{color:var(--accent)}
 .dc{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:20px 24px;text-decoration:none;font-weight:600}
 .dc:hover{border-color:var(--accent)}
 .dc span:last-child{color:var(--accent)}
+.vid{margin-top:28px;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000}
+.vid iframe{width:100%;height:100%;border:0;display:block}
 [hidden]{display:none!important}
 </style></head><body>
 <div class="wrap">
@@ -131,6 +133,12 @@ a.row:hover h3{color:var(--accent)}
     <a class="row" href="https://mardextrading.com/live/"><span class="n">02</span><div><h3>Live trading</h3><span class="pill">Próximamente</span></div><p>Operativa en directo: me ves operar en vivo la apertura de Nueva York y de Asia, junto a los alumnos, con cada decisión y entrada explicada al 100%.</p><span class="go">Anotarme en la lista de espera →</span></a>
     <a class="row" href="https://mardextrading.com/club/"><span class="n">03</span><div><h3>Mardex Club</h3><span class="pill">Solo para alumnos</span></div><p>Para mis alumnos: material, quizzes, calculadora, seguimiento de tu trading, ranking y sorteos.</p><span class="go">Entrar al Club →</span></a>
   </div>
+</section>
+
+<section id="como-funciona" hidden>
+  <h2>Cómo funciona esta página</h2>
+  <p class="sub">Un video corto donde te explico todo lo que hay.</p>
+  <div class="vid" id="vid"></div>
 </section>
 
 <section id="fondeo">
@@ -199,6 +207,16 @@ var REDES = [
     a.innerHTML = '<span class="ic" style="color:' + r.c + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + (r.n === "Instagram" ? IG : '<path d="' + r.i + '"/>') + '</svg></span><span>' + r.h + "</span>";
     li.appendChild(a); ul.appendChild(li);
   });
+})();
+/* Video "Cómo funciona esta página": pegá acá el ID del video de YouTube (lo que va después de youtu.be/). Si está vacío, la sección no se muestra. */
+var VIDEO_ID = "";
+(function () {
+  if (!VIDEO_ID) return;
+  var f = document.createElement("iframe");
+  f.src = "https://www.youtube-nocookie.com/embed/" + VIDEO_ID; f.title = "Cómo funciona esta página"; f.loading = "lazy"; f.allowFullscreen = true;
+  f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+  document.getElementById("vid").appendChild(f);
+  document.getElementById("como-funciona").hidden = false;
 })();
 /* Testimonios: agregá objetos { t: "texto", n: "Nombre" }. Si está vacío, la sección no se muestra. */
 var TESTIMONIOS = [];
