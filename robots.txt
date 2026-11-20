@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mardextrading.com/sitemap.xml
