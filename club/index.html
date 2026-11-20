@@ -183,9 +183,8 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 .stepgo:hover i{transform:translateX(3px)}
 .stepgo:hover b{text-decoration:underline;text-underline-offset:3px}
 .stepgo:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:6px}
-.step-two{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.stepbtns{display:flex;gap:8px;flex-wrap:wrap}
-.stepgo.pill{width:auto;border:1px solid var(--accent);color:var(--accent);border-radius:99px;padding:6px 14px;font-weight:600;font-size:14px}
+.stepbtns{grid-column:2;display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.stepgo.pill{display:inline-block;white-space:nowrap;width:auto;border:1px solid var(--accent);color:var(--accent);border-radius:99px;padding:6px 14px;font-weight:600;font-size:14px}
 .stepgo.pill:hover{background:var(--accent);color:var(--accent-ink)}
 </style></head><body>
 <div class="auth" id="auth" hidden>
