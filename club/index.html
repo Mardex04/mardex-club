@@ -200,6 +200,10 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 .inl b{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px}
 .inl:hover b{color:var(--accent)}
 .inl:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.vidbox{margin:0 0 18px}
+.vlabel{margin:0 0 8px;font-size:14px;font-weight:600}
+.vid{aspect-ratio:16/9;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#000}
+.vid iframe{width:100%;height:100%;border:0;display:block}
 </style></head><body>
 <div class="auth" id="auth" hidden>
 <div class="authbox">
@@ -218,6 +222,7 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 </div>
 <div class="mini-body" id="mini-body" role="tabpanel"></div>
 </div>
+<div class="vidbox"><p class="vlabel">¿Primera vez? Mirá cómo entrar y qué hay adentro.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/5GO4_Qj0qkE" title="Cómo usar el Mardex Club" loading="lazy" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div></div>
 <div class="regbox">
 <h2 class="reg">Registrate <em>acá</em></h2>
 <p class="note" id="auth-sub">Cargando…</p>
