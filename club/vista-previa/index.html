@@ -55,9 +55,35 @@ ol.steps span{color:var(--muted);font-size:14px}
 .btn.sec{background:transparent;color:var(--fg);border:1px solid var(--line)}
 .btn:hover{filter:brightness(1.05)}
 .btn.sec:hover{border-color:var(--accent);filter:none}
+
+.mini{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
+.mini-top{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);font-weight:700}
+.mini-top em{font-style:normal;color:var(--accent)}
+.mini-av{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#1a1203;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
+.mini-tabs{display:flex;gap:2px;overflow-x:auto;padding:0 8px;border-bottom:1px solid var(--line)}
+.mini-tabs button{background:none;border:0;color:var(--muted);font:inherit;font-size:13px;padding:10px 8px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.mini-tabs button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+.mini-body{padding:14px;display:flex;flex-direction:column;gap:6px;min-height:118px}
+.mini-body b{font-size:15px}
+.mini-body p{margin:0;color:var(--muted);font-size:14px}
+
+.vlink{margin:14px 0 0}.vlink a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
 </style></head><body>
 <div class="wrap">
   <a class="back" href="../../">← Mardex Trading</a>
+  <div style="margin:14px 0 18px"><div class="mini" id="mini" aria-label="Qué hay en el Mardex Club">
+<div class="mini-top"><span>Mardex <em>Club</em></span><span class="mini-av" aria-hidden="true">M</span></div>
+<div class="mini-tabs" role="tablist">
+<button type="button" role="tab" data-m="empezar" aria-selected="true">Empezá acá</button>
+<button type="button" role="tab" data-m="material" aria-selected="false">Material</button>
+<button type="button" role="tab" data-m="quizzes" aria-selected="false">Quizzes</button>
+<button type="button" role="tab" data-m="calculadora" aria-selected="false">Calculadora</button>
+<button type="button" role="tab" data-m="ranking" aria-selected="false">Ranking</button>
+<button type="button" role="tab" data-m="sorteo" aria-selected="false">Sorteos</button>
+<button type="button" role="tab" data-m="cuentas" aria-selected="false">Mis cuentas</button>
+</div>
+<div class="mini-body" id="mini-body" role="tabpanel"></div>
+</div></div>
   <div>
     <span class="vp">Vista previa</span>
     <h1>Mardex <em>Club</em></h1>
@@ -77,17 +103,20 @@ ol.steps span{color:var(--muted);font-size:14px}
   <p class="note">El contenido es solo para miembros: desde acá no se puede ver ningún archivo.</p>
 
   <h2>Cómo entrar</h2>
-  <div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/5GO4_Qj0qkE" title="Cómo usar el Mardex Club" loading="lazy" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>
-  <ol class="steps">
+    <ol class="steps">
     <li><div><b>Pedime el código del Club</b><span>Te lo paso yo cuando empezás la mentoría.</span></div></li>
     <li><div><b>Creá tu cuenta</b><span>Entrá al Club, tocá “Crear cuenta” y poné tu email y una contraseña de 8 caracteres o más.</span></div></li>
     <li><div><b>Confirmá tu email</b><span>Si te llega un mail con un link, tocalo para confirmar tu cuenta.</span></div></li>
     <li><div><b>Volvé a entrar</b><span>Con tu email y contraseña. Ahí te pido tu nombre y el código, y ya estás adentro.</span></div></li>
   </ol>
+  <p class="vlink"><a href="https://youtu.be/5GO4_Qj0qkE" target="_blank" rel="noopener">▶ Video corto: cómo ingresar y cómo funciona el Mardex Club</a></p>
 
   <div class="cta">
     <a class="btn" href="../">Ya soy alumno: entrar</a>
     <a class="btn sec" href="https://ig.me/m/mardex_trading" target="_blank" rel="noopener">Quiero ser alumno: escribirme por Instagram</a>
   </div>
 </div>
+<script>
+(function(){var T={empezar:["Empezá acá","Tu punto de partida: los primeros pasos si arrancás desde cero y las reglas del Club."],material:["Material","Videos, PDFs y enlaces para aprender desde cero. La metodología que utilizo, siempre arriba de todo. Marcás lo que ya viste."],quizzes:["Quizzes","Más de 60 preguntas de metodología, gestión y psicotrading. Te dice al instante si acertaste."],calculadora:["Calculadora de contratos","Elegís el tamaño de tu cuenta, tu riesgo y tu stop en puntos, y te dice cuántos micros tirar. Con una tabla rápida para tenerla a mano."],ranking:["Ranking","Cargás tus compras de cuentas y tus retiros y comparás tus resultados con los del grupo. Tu perfil puede ser público o privado."],sorteo:["Sorteos","Todos los meses hay un sorteo entre los miembros. Siendo miembro activo ya participás."],cuentas:["Mis cuentas","Cargás tus evals y cuentas funded: ves tu capital gestionado, cuánto invertiste y retiraste, y tu ROI se calcula solo. Pasás cada cuenta de eval a funded o la marcás como quemada."]};var box=document.getElementById("mini-body");function show(k){document.querySelectorAll("#mini [data-m]").forEach(function(b){b.setAttribute("aria-selected",b.dataset.m===k?"true":"false")});box.innerHTML="";var t=document.createElement("b");t.textContent=T[k][0];var p=document.createElement("p");p.textContent=T[k][1];box.appendChild(t);box.appendChild(p)}document.querySelectorAll("#mini [data-m]").forEach(function(b){b.addEventListener("click",function(){show(b.dataset.m)})});show("empezar")})();
+</script>
 </body></html>
