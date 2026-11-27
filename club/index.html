@@ -205,9 +205,7 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 .vid{aspect-ratio:16/9;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#000}
 .vid iframe{width:100%;height:100%;border:0;display:block}
 
-.vlinkm{display:none;margin:14px 0 0}.vlinkm a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
-@media(max-width:899px){.vidbox .vlabel,.vidbox .vid{display:none}.vlinkm{display:block}}
-@media(min-width:900px){.authbox.authbox{max-width:900px}.duo{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;margin-bottom:18px}.duo .vidbox{margin:0}.regbox{max-width:440px;margin-left:auto;margin-right:auto}}
+.vlinkm{margin:0}.vlinkm a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
 </style></head><body>
 <div class="auth" id="auth" hidden>
 <div class="authbox">
@@ -227,7 +225,7 @@ form.add .actions { grid-column: 1 / -1; display: flex; gap: 8px; align-items: c
 </div>
 <div class="mini-body" id="mini-body" role="tabpanel"></div>
 </div>
-<div class="vidbox"><p class="vlabel">¿Primera vez? Mirá cómo entrar y qué hay adentro.</p><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/5GO4_Qj0qkE" title="Cómo usar el Mardex Club" loading="lazy" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div><p class="vlinkm"><a href="https://youtu.be/5GO4_Qj0qkE" target="_blank" rel="noopener">▶ Video corto: cómo ingresar y cómo funciona el Mardex Club</a></p></div>
+<div class="vidbox"><p class="vlinkm"><a href="https://youtu.be/5GO4_Qj0qkE" target="_blank" rel="noopener">▶ Video corto: cómo ingresar y cómo funciona el Mardex Club</a></p></div>
 </div>
 <div class="regbox">
 <h2 class="reg">Registrate <em>acá</em></h2>
